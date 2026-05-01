@@ -5,8 +5,8 @@
 #include "score.h"
 #include <time.h>
 
-#define LARGURA  960
-#define ALTURA   640
+#define LARGURA  1160
+#define ALTURA   840
 
 int main() {
     InitWindow(LARGURA, ALTURA, "Elemental Rush");
@@ -46,26 +46,27 @@ int main() {
                 starboy.velocidade.x = 0;
                 if (IsKeyDown(KEY_A)) starboy.velocidade.x = -200;
                 if (IsKeyDown(KEY_D)) starboy.velocidade.x =  200;
-                if (IsKeyPressed(KEY_W)) jogadorPulaStarboy(&starboy);
 
                 // PlasmaGirl - Setas
                 plasmagirl.velocidade.x = 0;
                 if (IsKeyDown(KEY_LEFT))  plasmagirl.velocidade.x = -200;
                 if (IsKeyDown(KEY_RIGHT)) plasmagirl.velocidade.x =  200;
-                if (IsKeyPressed(KEY_UP)) jogadorPulaPlasmaGirl(&plasmagirl);
 
-                jogadorUpdate(&starboy);
-                jogadorUpdate(&plasmagirl);
+                // Update primeiro (atualiza noChao corretamente)
+                jogadorUpdate(&starboy, mapa);
+                jogadorUpdate(&plasmagirl, mapa);
+
+                // Pulo depois do update (noChao já está correto)
+                if (IsKeyDown(KEY_W)) jogadorPulaStarboy(&starboy);
+                if (IsKeyDown(KEY_UP)) jogadorPulaPlasmaGirl(&plasmagirl);
 
                 // Verifica morte
-                Rectangle rS = {starboy.posicao.x,    starboy.posicao.y,    starboy.largura,    starboy.altura};
+                Rectangle rS = {starboy.posicao.x, starboy.posicao.y, starboy.largura, starboy.altura};
                 Rectangle rP = {plasmagirl.posicao.x, plasmagirl.posicao.y, plasmagirl.largura, plasmagirl.altura};
-
                 if (mapaEhAgua(mapa, rS) || mapaEhFogo(mapa, rP)) {
                     tela = TELA_GAMEOVER;
                 }
 
-                // Verifica vitória
                 if (mapaStarboyVenceu(mapa, &starboy) && mapaPlasmaGirlVenceu(mapa, &plasmagirl)) {
                     tempoFinal = (int)(time(NULL) - inicio);
                     tela = TELA_VITORIA;
