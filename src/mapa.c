@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include "mapa.h"
+#include "tipos.h"
 #include "raylib.h"
 
 // Mapa do nível 1
@@ -14,8 +15,8 @@ static int nivel1[MAPA_LINHAS][MAPA_COLUNAS] = {
     {1,1,1,1,0,0,0,0,0,1,1,1,1,0,0,0,1,1,1,1,0,0,0,0,1,1,1,1,1,1},
     {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
     {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-    {1,0,0,0,0,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,0,0,0,0,0,0,1},
-    {1,0,0,0,0,0,0,0,0,0,0,0,2,2,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+    {1,0,0,0,0,1,1,1,0,0,0,0,2,2,2,2,0,0,0,0,1,0,1,0,0,0,0,0,0,1},
     {1,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,1},
     {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
     {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
@@ -54,11 +55,31 @@ void mapaDesenha(Mapa *m) {
             int tile = m->grade[y][x];
             Rectangle rect = {x * m->tileSize, y * m->tileSize, m->tileSize, m->tileSize};
             switch (tile) {
-                case PAREDE:  DrawRectangleRec(rect, GRAY);   break;
-                case FOGO:    DrawRectangleRec(rect, ORANGE); break;
-                case AGUA:    DrawRectangleRec(rect, BLUE);   break;
-                case PORTA_S: DrawRectangleRec(rect, RED);    break;
-                case PORTA_P: DrawRectangleRec(rect, SKYBLUE);   break;
+                case PAREDE:
+                    DrawRectangleRec(rect, DARKGRAY);
+                    DrawRectangle(x * m->tileSize,     y * m->tileSize,     m->tileSize, 3, LIGHTGRAY); // topo
+                    DrawRectangle(x * m->tileSize,     y * m->tileSize,     3, m->tileSize, LIGHTGRAY); // esquerda
+                    DrawRectangle(x * m->tileSize,     y * m->tileSize + m->tileSize - 3, m->tileSize, 3, BLACK); // base
+                    DrawRectangle(x * m->tileSize + m->tileSize - 3, y * m->tileSize, 3, m->tileSize, BLACK); // direita
+                    break;
+                case FOGO:
+                    DrawRectangleRec(rect, (Color){200, 80, 0, 255});
+                    DrawRectangle(x * m->tileSize, y * m->tileSize, m->tileSize, 3, (Color){255, 160, 0, 255});
+                    break;
+                case AGUA:
+                    DrawRectangleRec(rect, (Color){0, 80, 180, 255});
+                    DrawRectangle(x * m->tileSize, y * m->tileSize, m->tileSize, 3, (Color){0, 160, 255, 255});
+                    break;
+                case PORTA_S:
+                    DrawRectangleRec(rect, RED);
+                    DrawRectangleLinesEx(rect, 3, MAROON);
+                    DrawText("S", x * m->tileSize + 8, y * m->tileSize + 6, 20, WHITE);
+                    break;
+                case PORTA_P:
+                    DrawRectangleRec(rect, SKYBLUE);
+                    DrawRectangleLinesEx(rect, 3, BLUE);
+                    DrawText("P", x * m->tileSize + 8, y * m->tileSize + 6, 20, WHITE);
+                    break;
                 default: break;
             }
         }
