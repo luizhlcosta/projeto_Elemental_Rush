@@ -1,3 +1,4 @@
+//main.c
 #include "raylib.h"
 #include "jogador.h"
 #include "mapa.h"
@@ -11,6 +12,8 @@
 int main() {
     InitWindow(LARGURA, ALTURA, "Elemental Rush");
     SetTargetFPS(60);
+    Texture2D background = LoadTexture("assets/background_vulcanico.png");
+
 
     // Scores
     ListaScores *scores = scoreInit();
@@ -21,8 +24,8 @@ int main() {
 
     // Jogadores
     Jogador starboy, plasmagirl;
-    jogadorInit(&starboy,    64,  480, YELLOW,  'S');
-    jogadorInit(&plasmagirl, 864, 480, WHITE, 'P');
+    jogadorInit(&starboy,    80,  480, YELLOW,  'S');
+    jogadorInit(&plasmagirl, 980, 480, WHITE, 'P');
 
     // Mapa
     Mapa *mapa = mapaInit();
@@ -92,6 +95,29 @@ int main() {
 
             case TELA_JOGO:
                 ClearBackground(BLACK);
+                Rectangle source = {
+                    0,
+                    0,
+                    background.width,
+                    background.height
+                };
+
+                Rectangle dest = {
+                    0,
+                    0,
+                    GetScreenWidth(),
+                    GetScreenHeight()
+                };
+
+                DrawTexturePro(
+                    background,
+                    source,
+                    dest,
+                    (Vector2) {0,0},
+                    0.0f,
+                    WHITE
+                );
+
                 mapaDesenha(mapa);
                 jogadorDesenha(&starboy);
                 jogadorDesenha(&plasmagirl);
@@ -113,6 +139,9 @@ int main() {
 
     mapaDestroy(mapa);
     scoreDestroy(scores);
+    UnloadTexture(background);
+    UnloadTexture(starboy.sprite);
+    UnloadTexture(plasmagirl.sprite);
     CloseWindow();
     return 0;
 }
