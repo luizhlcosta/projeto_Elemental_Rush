@@ -3,7 +3,7 @@
 #include "tipos.h"
 
 #define GRAVIDADE    800.0f
-#define FORCA_PULO  -470.0f
+#define FORCA_PULO  -520.0f
 #define VELOCIDADE   200.0f
 
 void jogadorInit(Jogador *j, float x, float y, Color cor, char simbolo) {
@@ -15,6 +15,13 @@ void jogadorInit(Jogador *j, float x, float y, Color cor, char simbolo) {
     j->simbolo    = simbolo;
     j->noChao     = 0;
     j->vivo       = 1;
+
+    if (simbolo == 'S') {
+        j->sprite = LoadTexture("assets/starboy.png");
+    }
+    else if (simbolo == 'P') {
+        j->sprite = LoadTexture("assets/plasmagirl.png");
+    }
 }
 
 void jogadorUpdate(Jogador *j, Mapa *m) {
@@ -63,11 +70,29 @@ void jogadorUpdate(Jogador *j, Mapa *m) {
 }
 
 void jogadorDesenha(Jogador *j) {
-    DrawRectangle((int)j->posicao.x, (int)j->posicao.y, j->largura, j->altura, j->cor);
-    DrawText((char[]){j->simbolo, '\0'},
-             (int)j->posicao.x + 10,
-             (int)j->posicao.y + 8,
-             20, WHITE);
+
+    Rectangle source = {
+        0,
+        0,
+        (float)j->sprite.width,
+        (float)j->sprite.height
+    };
+
+    Rectangle dest = {
+        j->posicao.x,
+        j->posicao.y,
+        (float)j->largura,
+        (float)j->altura
+    };
+
+    DrawTexturePro(
+        j->sprite,
+        source,
+        dest,
+        (Vector2){0,0},
+        0.0f,
+        WHITE
+    );
 }
 
 void jogadorPulaStarboy(Jogador *j) {
