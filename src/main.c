@@ -66,7 +66,7 @@ int main() {
                 // Verifica morte
                 Rectangle rS = {starboy.posicao.x, starboy.posicao.y, starboy.largura, starboy.altura};
                 Rectangle rP = {plasmagirl.posicao.x, plasmagirl.posicao.y, plasmagirl.largura, plasmagirl.altura};
-                if (mapaEhAgua(mapa, rS) || mapaEhFogo(mapa, rP)) {
+                if (mapaEhAgua(mapa, rS) || mapaEhFogo(mapa, rP) || mapaEhMorte(mapa, rS) || mapaEhMorte(mapa, rP)) {
                     tela = TELA_GAMEOVER;
                 }
 
