@@ -26,8 +26,8 @@ static int nivel1[21][29] = {
     {0,0,0,0,0,0,0,0,0,0,0,6,6,6,6,6,6,6,0,0,0,0,0,0,0,0,0,0,0},
     {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
     {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-    {0,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,0},
-    {0,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,0}
+    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+    {8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8}
 };
 Mapa* mapaInit() {
     Mapa *m = (Mapa*) malloc(sizeof(Mapa));
@@ -77,6 +77,14 @@ void mapaDestroy(Mapa *m) {
     free(m);
 }
 
+int mapaEhMorte(Mapa *m, Rectangle rect) {
+    int x = (int)((rect.x + rect.width/2) / m->tileSize);
+    int y = (int)((rect.y + rect.height/2) / m->tileSize);
+    if (y >= 0 && y < m->linhas && x >= 0 && x < m->colunas)
+        return m->grade[y][x] == MORTE;
+    return 0;
+}
+
 void mapaDesenha(Mapa *m) {
 
     for (int y = 0; y < m->linhas; y++) {
@@ -104,6 +112,7 @@ void mapaDesenha(Mapa *m) {
                 
                 case AGUA_2:
                     DrawTexture(m->texAgua2, posX, posY, WHITE);
+                    break;
 
                 case PORTA_S:
                     DrawTexture(m->texPortaS, posX, posY, WHITE);
@@ -115,6 +124,8 @@ void mapaDesenha(Mapa *m) {
 
                 case TILE_CHAO:
                     DrawTexture(m->texChao, posX, posY, WHITE);
+                    break;
+                case MORTE:
                     break;
 
                 default:

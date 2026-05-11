@@ -8,6 +8,7 @@
 Mapa* mapaInit();
 void mapaDestroy(Mapa *m);
 void mapaDesenha(Mapa *m);
+int mapaEhMorte(Mapa *m, Rectangle rect);
 int mapaEhParede(Mapa *m, Rectangle rect);
 int mapaEhFogo(Mapa *m, Rectangle rect);
 int mapaEhAgua(Mapa *m, Rectangle rect);

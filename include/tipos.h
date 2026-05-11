@@ -17,6 +17,7 @@
 #define PORTA_S   5
 #define PORTA_P   7
 #define TILE_CHAO 6
+#define MORTE 8
 
 typedef struct {
     Vector2 posicao;
