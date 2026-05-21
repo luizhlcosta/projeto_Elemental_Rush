@@ -7,8 +7,8 @@
 #include <time.h>
 #include <math.h>
 
-#define LARGURA  1160
-#define ALTURA   840
+#define LARGURA  1280
+#define ALTURA   720
 
 int main() {
 

@@ -6,8 +6,8 @@
 #include "raylib.h"
 
 #define TILE_SIZE    40
-#define MAPA_LINHAS  21
-#define MAPA_COLUNAS 29
+#define MAPA_LINHAS  18
+#define MAPA_COLUNAS 32
 
 #define VAZIO     0
 #define PAREDE    1
