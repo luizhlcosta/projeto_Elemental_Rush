@@ -1,7 +1,7 @@
 //tipos.h
 
 #ifndef TIPOS_H
-#define TIPOS_H
+#define TIPOS_H 
 
 #include "raylib.h"
 #include <stdbool.h>
