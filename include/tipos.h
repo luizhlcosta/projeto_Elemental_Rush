@@ -4,6 +4,7 @@
 #define TIPOS_H
 
 #include "raylib.h"
+#include <stdbool.h>
 
 #define TILE_SIZE    40
 #define MAPA_LINHAS  21
@@ -45,5 +46,23 @@ typedef struct Mapa {
     Texture2D texPortaP;
     Texture2D texChao;
 } Mapa;
+
+// aqui é o nosso tipo estrela que tem uma posição
+//status de coletada ou nao
+// e a proxima
+
+typedef struct StarNode {
+    Vector2 posicao;
+    bool coletada;
+    struct StarNode *proximo;
+} StarNode;
+
+//uma lista do tipo estrela, onde tem o total e as coletadas
+
+typedef struct {
+    StarNode *inicio;
+    int total;
+    int coletadas;
+} ListaEstrelas;
 
 #endif
