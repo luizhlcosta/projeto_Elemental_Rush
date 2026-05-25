@@ -38,6 +38,14 @@ int main() {
     // Mapa
     Mapa *mapa = mapaInit();
 
+    // esttrelas do level 1
+    Vector2 posEstrelas[3] = {
+    {13 * TILE_SIZE, 4 * TILE_SIZE},
+    { 3 * TILE_SIZE, 8 * TILE_SIZE},
+    {14 * TILE_SIZE, 12 * TILE_SIZE}
+    };
+    ListaEstrelas *estrelas = estrelasInit(posEstrelas, 3);
+
     time_t inicio = 0;
     int tempoFinal = 0;
 
@@ -78,6 +86,7 @@ int main() {
                 // Update primeiro
                 jogadorUpdate(&starboy, mapa);
                 jogadorUpdate(&plasmagirl, mapa);
+                estrelasVerificarColeta(estrelas, starboy.posicao, plasmagirl.posicao, 20.0f);
 
                 // Pulo
                 if (IsKeyDown(KEY_W))
@@ -110,10 +119,7 @@ int main() {
                     tela = TELA_GAMEOVER;
                 }
 
-                if (
-                    mapaStarboyVenceu(mapa, &starboy) &&
-                    mapaPlasmaGirlVenceu(mapa, &plasmagirl)
-                ) {
+                if (mapaStarboyVenceu(mapa, &starboy) && mapaPlasmaGirlVenceu(mapa, &plasmagirl) && estrelasPodeProsseguir(estrelas)) {
                     tempoFinal = (int)(time(NULL) - inicio);
                     tela = TELA_VITORIA;
                 }
@@ -184,18 +190,11 @@ int main() {
                 );
 
                 mapaDesenha(mapa);
-
+                estrelasDesenhar(estrelas); 
                 jogadorDesenha(&starboy);
                 jogadorDesenha(&plasmagirl);
-
-                DrawText(
-                    TextFormat("Tempo: %ds", (int)(time(NULL) - inicio)),
-                    10,
-                    10,
-                    20,
-                    WHITE
-                );
-
+                DrawText(TextFormat("Tempo: %ds", (int)(time(NULL) - inicio)), 10, 10, 20, WHITE);
+                DrawText(TextFormat("Estrelas: %d/3", estrelas->coletadas), LARGURA - 180, 10, 20, GOLD);
                 break;
 
             case TELA_VITORIA:
@@ -241,6 +240,8 @@ int main() {
 
         EndDrawing();
     }
+    
+    estrelasDestroy(&estrelas);
 
     mapaDestroy(mapa);
 

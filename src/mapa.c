@@ -221,3 +221,59 @@ int mapaPlasmaGirlVenceu(Mapa *m, Jogador *j) {
         return m->grade[y][x] == PORTA_P;
     return 0;
 }
+
+ListaEstrelas* estrelasInit(Vector2 *posicoes, int quantidade) {
+    ListaEstrelas *lista = (ListaEstrelas*) malloc(sizeof(ListaEstrelas));
+    lista->inicio    = NULL;
+    lista->total     = quantidade;
+    lista->coletadas = 0;
+
+    for (int i = quantidade - 1; i >= 0; i--) {
+        StarNode *novo  = (StarNode*) malloc(sizeof(StarNode));
+        novo->posicao   = posicoes[i];
+        novo->coletada  = false;
+        novo->proximo   = lista->inicio;
+        lista->inicio   = novo;
+    }
+    return lista;
+}
+
+void estrelasVerificarColeta(ListaEstrelas *lista, Vector2 jog1, Vector2 jog2, float raio) {
+    StarNode *atual = lista->inicio;
+    while (atual != NULL) {
+        if (!atual->coletada) {
+            if (CheckCollisionPointCircle(jog1, atual->posicao, raio) ||
+                CheckCollisionPointCircle(jog2, atual->posicao, raio)) {
+                atual->coletada = true;
+                lista->coletadas++;
+            }
+        }
+        atual = atual->proximo;
+    }
+}
+
+bool estrelasPodeProsseguir(ListaEstrelas *lista) {
+    return lista->coletadas == lista->total;
+}
+
+void estrelasDesenhar(ListaEstrelas *lista) {
+    StarNode *atual = lista->inicio;
+    while (atual != NULL) {
+        if (!atual->coletada) {
+            DrawPoly(atual->posicao, 5, 14.0f, 18.0f, GOLD);
+            DrawPolyLinesEx(atual->posicao, 5, 14.0f, 18.0f, 1.5f, GOLD);
+        }
+        atual = atual->proximo;
+    }
+}
+
+void estrelasDestroy(ListaEstrelas **lista) {
+    StarNode *atual = (*lista)->inicio;
+    while (atual != NULL) {
+        StarNode *prox = atual->proximo;
+        free(atual);
+        atual = prox;
+    }
+    free(*lista);
+    *lista = NULL;
+}

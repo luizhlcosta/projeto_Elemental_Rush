@@ -15,5 +15,10 @@ int mapaEhFogo(Mapa *m, Rectangle rect);
 int mapaEhAgua(Mapa *m, Rectangle rect);
 int mapaStarboyVenceu(Mapa *m, Jogador *j);
 int mapaPlasmaGirlVenceu(Mapa *m, Jogador *j);
+ListaEstrelas* estrelasInit(Vector2 *posicoes, int quantidade);
+void estrelasVerificarColeta(ListaEstrelas *lista, Vector2 jog1, Vector2 jog2, float raio);
+bool estrelasPodeProsseguir(ListaEstrelas *lista);
+void estrelasDesenhar(ListaEstrelas *lista);
+void estrelasDestroy(ListaEstrelas **lista);
 
 #endif
