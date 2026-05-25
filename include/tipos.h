@@ -7,14 +7,14 @@
 #include <stdbool.h>
 
 #define TILE_SIZE    40
-#define MAPA_LINHAS  21
-#define MAPA_COLUNAS 29
+#define MAPA_LINHAS  18
+#define MAPA_COLUNAS 32
 
 #define VAZIO     0
 #define PAREDE    1
 #define FOGO      2
-#define AGUA_1    3
-#define AGUA_2    4
+#define AGUA_1    3 //esquerda
+#define AGUA_2    4 //direita 
 #define PORTA_S   5
 #define PORTA_P   7
 #define TILE_CHAO 6

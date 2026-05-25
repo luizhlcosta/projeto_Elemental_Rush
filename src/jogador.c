@@ -38,24 +38,55 @@ void jogadorUpdate(Jogador *j, Mapa *m) {
         j->velocidade.x = 0;
     }
 
-    // Move vertical
-    j->posicao.y += j->velocidade.y * dt;
-    Rectangle rV = {j->posicao.x, j->posicao.y, j->largura, j->altura};
-    if (mapaEhParede(m, rV)) {
-        if (j->velocidade.y > 0) {
-            // Caindo - snap no topo do bloco
-            int tileY = (int)((j->posicao.y + j->altura) / TILE_SIZE);
-            j->posicao.y = (float)(tileY * TILE_SIZE) - j->altura;
-            j->noChao = 1;
-        } else {
-            // Subindo - snap embaixo do bloco
-            int tileY = (int)(j->posicao.y / TILE_SIZE);
-            j->posicao.y = (float)((tileY + 1) * TILE_SIZE);
-        }
-        j->velocidade.y = 0;
-    } else {
-        j->noChao = 0;
+// Move vertical
+float prevBottom = j->posicao.y + j->altura;
+
+j->posicao.y += j->velocidade.y * dt;
+
+Rectangle rV = {
+    j->posicao.x,
+    j->posicao.y,
+    j->largura,
+    j->altura
+};
+
+// Colisão sólida completa
+if (mapaEhParede(m, rV))
+{
+    if (j->velocidade.y > 0)
+    {
+        int tileY =
+            (int)((j->posicao.y + j->altura) / TILE_SIZE);
+
+        j->posicao.y =
+            (float)(tileY * TILE_SIZE) - j->altura;
+
+        j->noChao = 1;
     }
+    else if (j->velocidade.y < 0)
+    {
+        int tileY =
+            (int)(j->posicao.y / TILE_SIZE);
+
+        j->posicao.y =
+            (float)((tileY + 1) * TILE_SIZE);
+    }
+
+    j->velocidade.y = 0;
+}
+
+// Plataforma superior
+else if (mapaColisaoTopo(m, rV, prevBottom, j->velocidade.y))
+{
+    int tileY = (int)((j->posicao.y + j->altura) / TILE_SIZE);
+    j->posicao.y = (float)(tileY * TILE_SIZE) - j->altura;
+    j->velocidade.y = 0;
+    j->noChao = 1;
+}
+else
+{
+    j->noChao = 0;
+}
 
     // Limites da tela
     if (j->posicao.x < 0) j->posicao.x = 0;

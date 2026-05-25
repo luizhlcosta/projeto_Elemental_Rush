@@ -5,7 +5,7 @@
 void telaInicioDesenha() {
     ClearBackground(BLACK);
 
-    DrawText("ELEMENTAL RUSH", 220, 150, 60, RED);
+    DrawText("ELEMENTAL", 220, 150, 60, RED);
     DrawText("RUSH", 320, 220, 60, YELLOW);
 
     DrawText("S - Starboy    usa: A D e W para pular", 200, 340, 22, YELLOW);
