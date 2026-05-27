@@ -2,6 +2,7 @@
 #include "raylib.h"
 #include "jogador.h"
 #include "mapa.h"
+#include "animacao.h"
 #include "jogo.h"
 #include "score.h"
 #include <time.h>
@@ -86,7 +87,6 @@ int main() {
                 // Update primeiro
                 jogadorUpdate(&starboy, mapa);
                 jogadorUpdate(&plasmagirl, mapa);
-                estrelasVerificarColeta(estrelas, starboy.posicao, plasmagirl.posicao, 20.0f);
 
                 // Pulo
                 if (IsKeyDown(KEY_W))
@@ -110,12 +110,9 @@ int main() {
                     plasmagirl.altura
                 };
 
-                if (
-                    mapaEhAgua(mapa, rS) ||
-                    mapaEhFogo(mapa, rP) ||
-                    mapaEhMorte(mapa, rS) ||
-                    mapaEhMorte(mapa, rP)
-                ) {
+                estrelasVerificarColeta(estrelas, rS, rP, 20.0f);
+
+                if (mapaEhAgua(mapa, rS) || mapaEhFogo(mapa, rP) || mapaEhMorte(mapa, rS) || mapaEhMorte(mapa, rP)) {
                     tela = TELA_GAMEOVER;
                 }
 
@@ -158,10 +155,8 @@ int main() {
 
                 ClearBackground(BLACK);
 
-                float escalaBg = fmax(
-                    (float)LARGURA / background.width,
-                    (float)ALTURA / background.height
-                );
+                float escalaBg = fmax((float)LARGURA / background.width,
+                    (float)ALTURA / background.height);
 
                 float larguraBg = background.width * escalaBg;
                 float alturaBg  = background.height * escalaBg;
@@ -249,8 +244,8 @@ int main() {
 
     UnloadTexture(background);
 
-    UnloadTexture(starboy.sprite);
-    UnloadTexture(plasmagirl.sprite);
+    jogadorDestroi(&starboy);
+    jogadorDestroi(&plasmagirl);
 
     UnloadRenderTexture(target);
 
