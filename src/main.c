@@ -40,9 +40,9 @@ int main() {
 
     // esttrelas do level 1
     Vector2 posEstrelas[3] = {
-    {13 * TILE_SIZE, 4 * TILE_SIZE},
-    { 3 * TILE_SIZE, 8 * TILE_SIZE},
-    {14 * TILE_SIZE, 12 * TILE_SIZE}
+    {14 * TILE_SIZE, 5 * TILE_SIZE},
+    { 25 * TILE_SIZE, 8 * TILE_SIZE},
+    {14 * TILE_SIZE, 9 * TILE_SIZE}
     };
     ListaEstrelas *estrelas = estrelasInit(posEstrelas, 3);
 

@@ -12,9 +12,9 @@ static int nivel1[18][32] = {
 
     {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
 
-    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,5,0,0,0,0},
-
-    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,5,0,0,0,0},
+    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+      
+    {0,0,0,0,7,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,0,0,0,0}, 
 
     {6,6,6,6,6,6,6,6,6,6,6,6,6,0,0,0,0,0,0,6,6,6,6,6,6,6,6,6,6,6,6,6},
 
@@ -63,8 +63,8 @@ Mapa* mapaInit() {
     m->texFogo   = LoadTexture("assets/tiles/fogo.png");
     m->texAgua1  = LoadTexture("assets/tiles/agua1.png");
     m->texAgua2  = LoadTexture("assets/tiles/agua2.png");
-    m->texPortaS = LoadTexture("assets/tiles/porta_s.png");
-    m->texPortaP = LoadTexture("assets/tiles/porta_p.png");
+    m->texPortaS = LoadTexture("assets/tiles/porta_lava.png");
+    m->texPortaP = LoadTexture("assets/tiles/porta_gelo.png");
     m->texChao   = LoadTexture("assets/tiles/chao.png");
 
     SetTextureFilter(m->texParede, TEXTURE_FILTER_POINT);
