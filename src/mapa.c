@@ -8,41 +8,41 @@
 // Mapa do nível 1
 static int nivel1[18][32] = {
 
-    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+    {0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0},
 
-    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+    {0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0},
 
-    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,5,0,0,0,0},
+    {0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,8 ,8 ,8 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0},
 
-    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,5,0,0,0,0},
+    {0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0},
 
-    {6,6,6,6,6,6,6,6,6,6,6,6,6,0,0,0,0,0,0,6,6,6,6,6,6,6,6,6,6,6,6,6},
+    {0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,8 ,8 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,8 ,8 ,0 ,0 ,0 ,0 ,0},
 
-    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+    {0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0},
 
-    {6,6,3,4,6,3,4,6,6,6,6,0,0,0,0,0,0,0,0,0,6,6,6,6,3,4,6,3,4,6,6,6},
+    {0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,8 ,8 ,8 ,8 ,8 ,8 ,8 ,8 ,8 ,8 ,8 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0},
 
-    {6,6,6,6,6,6,6,0,0,0,0,0,0,6,6,6,6,0,0,0,0,0,0,0,6,6,6,6,6,6,6,6},
+    {0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0},
 
-    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+    {8 ,8 ,0 ,0 ,8 ,8 ,0 ,0 ,8 ,8 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,8 ,8 ,0 ,0 ,8 ,8},
 
-    {0,0,0,0,0,0,0,6,6,6,6,6,6,0,0,0,0,0,6,6,6,6,6,6,0,0,0,0,0,0,0,0},
+    {0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0},
 
-    {6,6,6,6,6,6,6,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,6,6,6,6,6,6,6,6,6},
+    {0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,8 ,2 ,3 ,4 ,8 ,8 ,5 ,6 ,7 ,8 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0},
 
-    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+    {0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 , 8, 8,8 ,8 ,8 ,8 ,8 ,8 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0},
 
-    {0,0,0,0,0,0,0,0,0,0,0,6,6,6,6,6,6,6,6,0,0,0,0,0,0,0,0,0,0,0,0,0},
+    {0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0},
 
-    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+    {8 ,8 ,8 ,8 ,8 ,8 ,8 ,8 ,8 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,8 ,8 ,8 ,8 ,8 ,8 ,8},
 
-    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+    {0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0},
 
-    {6,6,6,6,6,6,6,6,6,6,6,0,0,0,0,0,0,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6},
+    {8 ,8 ,8 ,8 ,8 ,8 ,8 ,8 ,8 ,8 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,8 ,8 ,8 ,8 ,8 ,8 ,8 ,8 ,8 ,8},
 
-    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+    {0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0},
 
-    {8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8}
+    {11,11,11,11,11,11,1,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11}
 };
 
 Mapa* mapaInit() {
@@ -59,18 +59,24 @@ Mapa* mapaInit() {
         }
     }
 
-    m->texParede = LoadTexture("assets/tiles/parede.png");
-    m->texFogo   = LoadTexture("assets/tiles/fogo.png");
-    m->texAgua1  = LoadTexture("assets/tiles/agua1.png");
-    m->texAgua2  = LoadTexture("assets/tiles/agua2.png");
-    m->texPortaS = LoadTexture("assets/tiles/porta_s.png");
-    m->texPortaP = LoadTexture("assets/tiles/porta_p.png");
-    m->texChao   = LoadTexture("assets/tiles/chao.png");
+    m->texParede   = LoadTexture("assets/tiles/parede.png");
+    m->texFogo1    = LoadTexture("assets/tiles/fogo1.png");
+    m->texFogo2    = LoadTexture("assets/tiles/fogo2.png");
+    m->texFogoMeio = LoadTexture("assets/tiles/fogoMeio.png");
+    m->texAgua1    = LoadTexture("assets/tiles/agua1.png");
+    m->texAgua2    = LoadTexture("assets/tiles/agua2.png");
+    m->texAguaMeio = LoadTexture("assets/tiles/aguaMeio.png");
+    m->texPortaS   = LoadTexture("assets/tiles/porta_s.png");
+    m->texPortaP   = LoadTexture("assets/tiles/porta_p.png");
+    m->texChao     = LoadTexture("assets/tiles/chao.png");
 
     SetTextureFilter(m->texParede, TEXTURE_FILTER_POINT);
-    SetTextureFilter(m->texFogo,   TEXTURE_FILTER_POINT);
+    SetTextureFilter(m->texFogo1,   TEXTURE_FILTER_POINT);
+    SetTextureFilter(m->texFogo2,   TEXTURE_FILTER_POINT);
+    SetTextureFilter(m->texFogoMeio,   TEXTURE_FILTER_POINT);
     SetTextureFilter(m->texAgua1,   TEXTURE_FILTER_POINT);
     SetTextureFilter(m->texAgua2,   TEXTURE_FILTER_POINT);
+    SetTextureFilter(m->texAguaMeio,   TEXTURE_FILTER_POINT);
     SetTextureFilter(m->texPortaS, TEXTURE_FILTER_POINT);
     SetTextureFilter(m->texPortaP, TEXTURE_FILTER_POINT);
     SetTextureFilter(m->texChao,   TEXTURE_FILTER_POINT);
@@ -82,7 +88,9 @@ void mapaDestroy(Mapa *m) {
     for (int i = 0; i < m->linhas; i++) free(m->grade[i]);
 
     UnloadTexture(m->texParede);
-    UnloadTexture(m->texFogo);
+    UnloadTexture(m->texFogo1);
+    UnloadTexture(m->texFogo2);
+    UnloadTexture(m->texFogoMeio);
     UnloadTexture(m->texAgua1);
     UnloadTexture(m->texAgua2);
     UnloadTexture(m->texPortaS);
@@ -91,29 +99,6 @@ void mapaDestroy(Mapa *m) {
 
     free(m->grade);
     free(m);
-}
-
-int mapaColisaoTopo(Mapa *m, Rectangle rect, float peFrameAnterior, float velY)
-{
-    // Se está subindo, nunca colide com semi-sólido
-    if (velY < 0) return 0;
-
-    int x1 = (int)(rect.x / m->tileSize);
-    int x2 = (int)((rect.x + rect.width - 1) / m->tileSize);
-    int y  = (int)((rect.y + rect.height - 1) / m->tileSize);
-
-    for (int x = x1; x <= x2; x++) {
-        if (y >= 0 && y < m->linhas && x >= 0 && x < m->colunas) {
-            if (m->grade[y][x] == PAREDE) {
-                float topoTile = (float)(y * m->tileSize);
-
-                // O pé do jogador estava ACIMA do topo do tile no frame anterior?
-                if (peFrameAnterior <= topoTile + 1.0f)
-                    return 1;
-            }
-        }
-    }
-    return 0;
 }
 
 int mapaEhMorte(Mapa *m, Rectangle rect) {
@@ -141,8 +126,16 @@ void mapaDesenha(Mapa *m) {
                     DrawTexture(m->texParede, posX, posY, WHITE);
                     break;
 
-                case FOGO:
-                    DrawTexture(m->texFogo, posX, posY, WHITE);
+                case FOGO_1:
+                    DrawTexture(m->texFogo1, posX, posY, WHITE);
+                    break;
+
+                case FOGO_2:
+                    DrawTexture(m->texFogo2, posX, posY, WHITE);
+                    break;
+
+                case FOGO_MEIO:
+                    DrawTexture(m->texFogoMeio, posX, posY, WHITE);
                     break;
 
                 case AGUA_1:
@@ -151,6 +144,10 @@ void mapaDesenha(Mapa *m) {
                 
                 case AGUA_2:
                     DrawTexture(m->texAgua2, posX, posY, WHITE);
+                    break;
+
+                case AGUA_MEIO:
+                    DrawTexture(m->texAguaMeio, posX, posY, WHITE);
                     break;
 
                 case PORTA_S:
@@ -194,7 +191,7 @@ int mapaEhFogo(Mapa *m, Rectangle rect) {
     int x = (int)((rect.x + rect.width/2) / m->tileSize);
     int y = (int)((rect.y + rect.height/2) / m->tileSize);
     if (y >= 0 && y < m->linhas && x >= 0 && x < m->colunas)
-        return m->grade[y][x] == FOGO;
+        return m->grade[y][x] == FOGO_1 || m->grade[y][x] == FOGO_2 || m->grade[y][x] == FOGO_MEIO;
     return 0;
 }
 
@@ -202,7 +199,7 @@ int mapaEhAgua(Mapa *m, Rectangle rect) {
     int x = (int)((rect.x + rect.width/2) / m->tileSize);
     int y = (int)((rect.y + rect.height/2) / m->tileSize);
     if (y >= 0 && y < m->linhas && x >= 0 && x < m->colunas)
-        return m->grade[y][x] == AGUA_1 || m->grade[y][x] == AGUA_2;
+        return m->grade[y][x] == AGUA_1 || m->grade[y][x] == AGUA_2 || m->grade[y][x] == AGUA_MEIO;
     return 0;
 }
 
@@ -238,12 +235,12 @@ ListaEstrelas* estrelasInit(Vector2 *posicoes, int quantidade) {
     return lista;
 }
 
-void estrelasVerificarColeta(ListaEstrelas *lista, Vector2 jog1, Vector2 jog2, float raio) {
+void estrelasVerificarColeta(ListaEstrelas *lista, Rectangle jog1, Rectangle jog2, float raio) {
     StarNode *atual = lista->inicio;
     while (atual != NULL) {
         if (!atual->coletada) {
-            if (CheckCollisionPointCircle(jog1, atual->posicao, raio) ||
-                CheckCollisionPointCircle(jog2, atual->posicao, raio)) {
+            if (CheckCollisionCircleRec(atual->posicao, raio, jog1) ||
+                CheckCollisionCircleRec(atual->posicao, raio, jog2)) {
                 atual->coletada = true;
                 lista->coletadas++;
             }
