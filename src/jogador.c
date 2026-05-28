@@ -1,28 +1,26 @@
-#include <stdio.h> 
+#include <stdio.h>
 
 #include "jogador.h"
 #include "mapa.h"
 #include "tipos.h"
 
-#define GRAVIDADE    800.0f
-#define FORCA_PULO  -450.0f
-#define VELOCIDADE   200.0f
+#define GRAVIDADE   800.0f
+#define FORCA_PULO -450.0f
+#define VELOCIDADE  200.0f
 
-// ── Configuração dos spritesheets ─────────────────────────────────────────────
-// Starboy: assets/starboy_idle.png — tira horizontal com 5 frames de 36×32 px
-// PlasmaGirl: assets/plasmagirl.png — sprite único 32×32 px
-//
-// Como só existe animação de idle, todos os estados de animação usam
-// o mesmo spritesheet. Quando novas animações forem adicionadas, basta
-// criar os arquivos e ajustar os valores abaixo.
+// ── Spritesheets ──────────────────────────────────────────────────────────────
+// Ambos os personagens usam tiras horizontais de 160x32 px (5 frames de 32x32).
+// Para adicionar novas animações, crie o arquivo e replique o bloco abaixo.
 
-#define STARBOY_FRAMES    5
-#define STARBOY_FPS       8
-#define STARBOY_SPRITE    "assets/pixil-frame-0_16.png"
+#define STARBOY_SPRITE  "assets/pixil-frame-0_16.png"
+#define STARBOY_FRAMES  5
+#define STARBOY_FPS     5
 
-#define PLASMAGIRL_FRAMES 1
-#define PLASMAGIRL_FPS    1
 #define PLASMAGIRL_SPRITE "assets/plasmagirl.png"
+#define PLASMAGIRL_FRAMES 5
+#define PLASMAGIRL_FPS    5
+
+// ─────────────────────────────────────────────────────────────────────────────
 
 void jogadorInit(Jogador *j, float x, float y, Color cor, char simbolo) {
     j->posicao         = (Vector2){x, y};
@@ -36,31 +34,24 @@ void jogadorInit(Jogador *j, float x, float y, Color cor, char simbolo) {
     j->olhandoEsquerda = 0;
     j->estadoAnim      = ANIM_IDLE;
 
-    const char *caminho  = (simbolo == 'S') ? STARBOY_SPRITE    : PLASMAGIRL_SPRITE;
-    int         nFrames  = (simbolo == 'S') ? STARBOY_FRAMES    : PLASMAGIRL_FRAMES;
-    int         fps      = (simbolo == 'S') ? STARBOY_FPS       : PLASMAGIRL_FPS;
+    const char *caminho = (simbolo == 'S') ? STARBOY_SPRITE    : PLASMAGIRL_SPRITE;
+    int         nFrames = (simbolo == 'S') ? STARBOY_FRAMES    : PLASMAGIRL_FRAMES;
+    int         fps     = (simbolo == 'S') ? STARBOY_FPS       : PLASMAGIRL_FPS;
 
-    // Calcula os retângulos de cada frame (tira horizontal)
-    Texture2D ref = LoadTexture(caminho);
-    SetTextureFilter(ref, TEXTURE_FILTER_POINT);
+    Texture2D tex = LoadTexture(caminho);
+    SetTextureFilter(tex, TEXTURE_FILTER_POINT);
 
-    float fw = (float)ref.width  / nFrames;
-    float fh = (float)ref.height;
-
+    // Define os frames: cada frame começa em (i * fw, 0) e tem tamanho fw x fh
     Rectangle frames[32];
+    float fw = (float)tex.width / nFrames;
+    float fh = (float)tex.height;
     for (int i = 0; i < nFrames; i++)
         frames[i] = (Rectangle){ i * fw, 0, fw, fh };
 
-    // ANIM_IDLE usa o atlas já carregado
-    j->animacoes[ANIM_IDLE] = Criar_Animacao_Sprite(ref, fps, frames, nFrames);
-
-    // Demais estados carregam o mesmo arquivo como textura independente,
-    // permitindo que cada um seja descarregado separadamente no destroy.
-    for (int s = 1; s < ANIM_TOTAL; s++) {
-        Texture2D t = LoadTexture(caminho);
-        SetTextureFilter(t, TEXTURE_FILTER_POINT);
-        j->animacoes[s] = Criar_Animacao_Sprite(t, fps, frames, nFrames);
-    }
+    // Todos os estados compartilham o mesmo atlas por enquanto.
+    // Quando uma nova animação tiver spritesheet próprio, troque só o slot dela.
+    for (int s = 0; s < ANIM_TOTAL; s++)
+        j->animacoes[s] = Criar_Animacao_Sprite(tex, fps, frames, nFrames);
 }
 
 void jogadorUpdate(Jogador *j, Mapa *m) {
@@ -69,11 +60,9 @@ void jogadorUpdate(Jogador *j, Mapa *m) {
 
     float dt = GetFrameTime();
 
-    // Atualiza direção para o flip horizontal
     if (j->velocidade.x < 0) j->olhandoEsquerda = 1;
     else if (j->velocidade.x > 0) j->olhandoEsquerda = 0;
 
-    // Gravidade
     j->velocidade.y += GRAVIDADE * dt;
 
     // Move horizontal
@@ -85,19 +74,8 @@ void jogadorUpdate(Jogador *j, Mapa *m) {
     }
 
     // Move vertical
-    float prevBottom = j->posicao.y + j->altura;
-    (void)prevBottom;
-
     j->posicao.y += j->velocidade.y * dt;
-
-    Rectangle rV = {
-        j->posicao.x,
-        j->posicao.y,
-        j->largura,
-        j->altura
-    };
-
-    // Colisão sólida completa
+    Rectangle rV = {j->posicao.x, j->posicao.y, j->largura, j->altura};
     if (mapaEhParede(m, rV)) {
         if (j->velocidade.y > 0) {
             int tileY = (int)((j->posicao.y + j->altura) / TILE_SIZE);
@@ -121,14 +99,13 @@ void jogadorUpdate(Jogador *j, Mapa *m) {
         j->noChao = 1;
     }
 
-    // Determina o estado da animação com base no movimento
-    if (!j->noChao) {
+    // Estado da animação
+    if (!j->noChao)
         j->estadoAnim = (j->velocidade.y < 0) ? ANIM_PULANDO : ANIM_CAINDO;
-    } else if (j->velocidade.x != 0) {
+    else if (j->velocidade.x != 0)
         j->estadoAnim = ANIM_CORRENDO;
-    } else {
+    else
         j->estadoAnim = ANIM_IDLE;
-    }
 }
 
 void jogadorDesenha(Jogador *j) {
@@ -145,17 +122,18 @@ void jogadorDesenha(Jogador *j) {
         (Vector2){0, 0},
         0.0f,
         WHITE,
-        0,                    // pausado
-        j->olhandoEsquerda,   // flipH
-        0                     // flipV
+        0,                  // pausado
+        j->olhandoEsquerda, // flipH
+        0                   // flipV
     );
 }
 
 void jogadorDestroi(Jogador *j) {
-    for (int s = 0; s < ANIM_TOTAL; s++) {
+    // Libera os retângulos de cada slot
+    for (int s = 0; s < ANIM_TOTAL; s++)
         PararAnimacaoSprite(j->animacoes[s]);
-        UnloadTexture(j->animacoes[s].atlas);
-    }
+    // A textura foi carregada uma vez — descarrega uma vez
+    UnloadTexture(j->animacoes[ANIM_IDLE].atlas);
 }
 
 void jogadorPulaStarboy(Jogador *j) {
