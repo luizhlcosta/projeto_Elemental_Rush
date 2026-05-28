@@ -16,8 +16,8 @@ typedef enum {
     TELA_SAIR
 } TelaAtual;
 
-void telaInicioDesenha();
-void telaSelecaoMapaDesenha(int mapaAtual);
+void telaInicioDesenha(ListaScores *scores);
+void telaSelecaoMapaDesenha(int mapaAtual, int mapaDesbloqueado);
 void telaVitoriaDesenha(int tempo, ListaScores *scores);
 void telaGameOverDesenha();
 void telaScoresDesenha(ListaScores *scores);
