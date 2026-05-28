@@ -6,6 +6,7 @@
 #include "tipos.h"
 
 Mapa* mapaInit();
+Mapa* mapaInitNivel(int nivel);
 void mapaDestroy(Mapa *m);
 void mapaDesenha(Mapa *m);
 int mapaColisaoTopo(Mapa *m, Rectangle rect, float peFrameAnterior, float velY);

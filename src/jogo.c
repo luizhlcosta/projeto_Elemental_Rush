@@ -35,7 +35,30 @@ void telaVitoriaDesenha(int tempo, ListaScores *scores) {
         pos++;
     }
 
-    DrawText("Pressione ENTER para sair", 240, 530, 24, LIGHTGRAY);
+    DrawText("ENTER para sair  |  ESC para menu", 220, 530, 24, LIGHTGRAY);
+}
+
+void telaSelecaoMapaDesenha(int mapaAtual) {
+    ClearBackground(BLACK);
+
+    DrawText("SELECAO DE MAPA", 230, 80, 50, YELLOW);
+
+    const char *nomes[2] = {
+        "Mapa 1",
+        "Mapa 2"
+    };
+
+    for (int i = 0; i < 2; i++) {
+        Color cor = (i == mapaAtual) ? YELLOW : LIGHTGRAY;
+        int tamanho = (i == mapaAtual) ? 34 : 28;
+        int x = (i == mapaAtual) ? 230 : 240;
+        DrawText(nomes[i], x, 240 + i * 90, tamanho, cor);
+        if (i == mapaAtual)
+            DrawText(">", 195, 240 + i * 90, 34, YELLOW);
+    }
+
+    DrawText("Setas CIMA/BAIXO para navegar", 220, 480, 22, GRAY);
+    DrawText("ENTER para iniciar  |  ESC para voltar", 185, 515, 22, GRAY);
 }
 
 void telaGameOverDesenha() {
@@ -43,7 +66,7 @@ void telaGameOverDesenha() {
 
     DrawText("GAME OVER", 220, 180, 70, RED);
     DrawText("Um dos jogadores morreu!", 200, 280, 28, WHITE);
-    DrawText("Pressione ENTER para sair", 210, 530, 24, LIGHTGRAY);
+    DrawText("ENTER para sair  |  ESC para menu", 230, 530, 24, LIGHTGRAY);
 }
 
 void telaScoresDesenha(ListaScores *scores) {

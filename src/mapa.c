@@ -45,20 +45,31 @@ static int nivel1[18][32] = {
     {11,11,11,11,11,11,1,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11}
 };
 
-Mapa* mapaInit() {
-    Mapa *m = (Mapa*) malloc(sizeof(Mapa));
-    m->linhas   = MAPA_LINHAS;
-    m->colunas  = MAPA_COLUNAS;
-    m->tileSize = TILE_SIZE;
+// Mapa do nível 2 - Caverna de Gelo
+// Starboy (S, porta 10) começa à direita; PlasmaGirl (P, porta 9) começa à esquerda
+// Fogo mata PlasmaGirl; Água mata Starboy
+static int nivel2[18][32] = {
+    {0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0},
+    {0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0},
+    {0 ,9 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,10,0},
+    {8 ,8 ,8 ,8 ,8 ,8 ,8 ,8 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,8 ,8 ,8 ,8 ,8 ,8 ,8 ,8},
+    {0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,8 ,8 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,8 ,8 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0},
+    {0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0},
+    {0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,8 ,8 ,8 ,8 ,8 ,0 ,0 ,0 ,0 ,8 ,8 ,8 ,8 ,8 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0},
+    {0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0},
+    {0 ,0 ,8 ,8 ,0 ,0 ,8 ,8 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,8 ,8 ,0 ,0 ,8 ,8 ,0 ,0},
+    {0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0},
+    {0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,8 ,5 ,6 ,7 ,8 ,8 ,2 ,3 ,4 ,8 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0},
+    {0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,8 ,8 ,8 ,8 ,8 ,8 ,8 ,8 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0},
+    {0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0},
+    {8 ,8 ,8 ,8 ,8 ,8 ,8 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,8 ,8 ,8 ,8 ,8 ,8 ,8},
+    {0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0},
+    {8 ,8 ,8 ,8 ,8 ,8 ,8 ,8 ,8 ,8 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,8 ,8 ,8 ,8 ,8 ,8 ,8 ,8 ,8 ,8},
+    {0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0},
+    {11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11}
+};
 
-    m->grade = (int**) malloc(m->linhas * sizeof(int*));
-    for (int i = 0; i < m->linhas; i++) {   
-        m->grade[i] = (int*) malloc(m->colunas * sizeof(int));
-        for (int j = 0; j < m->colunas; j++) {
-            m->grade[i][j] = nivel1[i][j];
-        }
-    }
-
+static void mapaCarregaTexturas(Mapa *m) {
     m->texParede   = LoadTexture("assets/tiles/parede.png");
     m->texFogo1    = LoadTexture("assets/tiles/fogo1.png");
     m->texFogo2    = LoadTexture("assets/tiles/fogo2.png");
@@ -70,18 +81,40 @@ Mapa* mapaInit() {
     m->texPortaP   = LoadTexture("assets/tiles/porta_p.png");
     m->texChao     = LoadTexture("assets/tiles/chao.png");
 
-    SetTextureFilter(m->texParede, TEXTURE_FILTER_POINT);
-    SetTextureFilter(m->texFogo1,   TEXTURE_FILTER_POINT);
-    SetTextureFilter(m->texFogo2,   TEXTURE_FILTER_POINT);
-    SetTextureFilter(m->texFogoMeio,   TEXTURE_FILTER_POINT);
-    SetTextureFilter(m->texAgua1,   TEXTURE_FILTER_POINT);
-    SetTextureFilter(m->texAgua2,   TEXTURE_FILTER_POINT);
-    SetTextureFilter(m->texAguaMeio,   TEXTURE_FILTER_POINT);
-    SetTextureFilter(m->texPortaS, TEXTURE_FILTER_POINT);
-    SetTextureFilter(m->texPortaP, TEXTURE_FILTER_POINT);
-    SetTextureFilter(m->texChao,   TEXTURE_FILTER_POINT);
+    SetTextureFilter(m->texParede,   TEXTURE_FILTER_POINT);
+    SetTextureFilter(m->texFogo1,    TEXTURE_FILTER_POINT);
+    SetTextureFilter(m->texFogo2,    TEXTURE_FILTER_POINT);
+    SetTextureFilter(m->texFogoMeio, TEXTURE_FILTER_POINT);
+    SetTextureFilter(m->texAgua1,    TEXTURE_FILTER_POINT);
+    SetTextureFilter(m->texAgua2,    TEXTURE_FILTER_POINT);
+    SetTextureFilter(m->texAguaMeio, TEXTURE_FILTER_POINT);
+    SetTextureFilter(m->texPortaS,   TEXTURE_FILTER_POINT);
+    SetTextureFilter(m->texPortaP,   TEXTURE_FILTER_POINT);
+    SetTextureFilter(m->texChao,     TEXTURE_FILTER_POINT);
+}
 
+Mapa* mapaInitNivel(int nivel) {
+    Mapa *m = (Mapa*) malloc(sizeof(Mapa));
+    m->linhas   = MAPA_LINHAS;
+    m->colunas  = MAPA_COLUNAS;
+    m->tileSize = TILE_SIZE;
+
+    int (*grade)[32] = (nivel == 1) ? nivel2 : nivel1;
+
+    m->grade = (int**) malloc(m->linhas * sizeof(int*));
+    for (int i = 0; i < m->linhas; i++) {
+        m->grade[i] = (int*) malloc(m->colunas * sizeof(int));
+        for (int j = 0; j < m->colunas; j++) {
+            m->grade[i][j] = grade[i][j];
+        }
+    }
+
+    mapaCarregaTexturas(m);
     return m;
+}
+
+Mapa* mapaInit() {
+    return mapaInitNivel(0);
 }
 
 void mapaDestroy(Mapa *m) {
