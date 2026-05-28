@@ -79,7 +79,7 @@ int main() {
     InitWindow(LARGURA, ALTURA, "Elemental Rush");
     SetWindowState(FLAG_WINDOW_RESIZABLE);
     SetExitKey(KEY_NULL);  // desativa ESC como tecla de fechar janela
-    SetTargetFPS(60);
+    SetTargetFPS(120);
 
     Texture2D background = LoadTexture("assets/background_vulcanico.png");
 
