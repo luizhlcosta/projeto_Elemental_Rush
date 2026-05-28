@@ -12,13 +12,13 @@
 // Ambos os personagens usam tiras horizontais de 160x32 px (5 frames de 32x32).
 // Para adicionar novas animações, crie o arquivo e replique o bloco abaixo.
 
-#define STARBOY_SPRITE  "assets/pixil-frame-0_16.png"
-#define STARBOY_FRAMES  5
-#define STARBOY_FPS     5
+#define STARBOY_SPRITE  "assets/fireidle.png"
+#define STARBOY_FRAMES  8
+#define STARBOY_FPS     10
 
-#define PLASMAGIRL_SPRITE "assets/plasmagirl.png"
-#define PLASMAGIRL_FRAMES 5
-#define PLASMAGIRL_FPS    5
+#define PLASMAGIRL_SPRITE "assets/plasmaidle.png"
+#define PLASMAGIRL_FRAMES 8
+#define PLASMAGIRL_FPS    8
 
 // ─────────────────────────────────────────────────────────────────────────────
 
