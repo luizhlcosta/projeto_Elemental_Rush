@@ -36,6 +36,9 @@ typedef struct {
     time_t  inicio;
     int     tempoFinal;
     int     mapaSelecionado;
+
+    // Tempo acumulado de fases anteriores (para placar final correto)
+    int     tempoAcumulado;
 } EstadoJogo;
 
 static void estadoJogoInit(EstadoJogo *e, int mapaSelecionado) {
@@ -54,19 +57,28 @@ static void estadoJogoInit(EstadoJogo *e, int mapaSelecionado) {
     e->estrelas = estrelasInit(posEstrelasMapa[mapaSelecionado], 3);
     e->inicio   = 0;
     e->tempoFinal = 0;
+    // tempoAcumulado NÃO é zerado aqui pois pode vir de uma fase anterior
 }
 
-static void estadoJogoDestroy(EstadoJogo *e) {
+// Libera apenas os recursos de mapa/jogadores/estrelas (sem zerar tempoAcumulado)
+static void estadoJogoLiberarFase(EstadoJogo *e) {
     estrelasDestroy(&e->estrelas);
     mapaDestroy(e->mapa);
     jogadorDestroi(&e->starboy);
     jogadorDestroi(&e->plasmagirl);
 }
 
+// Libera tudo e zera o acumulado (usado ao voltar ao menu)
+static void estadoJogoDestroy(EstadoJogo *e) {
+    estadoJogoLiberarFase(e);
+    e->tempoAcumulado = 0;
+}
+
 int main() {
 
     InitWindow(LARGURA, ALTURA, "Elemental Rush");
     SetWindowState(FLAG_WINDOW_RESIZABLE);
+    SetExitKey(KEY_NULL);  // desativa ESC como tecla de fechar janela
     SetTargetFPS(60);
 
     Texture2D background = LoadTexture("assets/background_vulcanico.png");
@@ -81,6 +93,7 @@ int main() {
     // Estado do jogo
     TelaAtual tela = TELA_INICIO;
     int mapaSelecionado = 0;   // cursor da tela de seleção
+    int mapaDesbloqueado = 0;  // índice do mapa mais avançado liberado
 
     EstadoJogo jogo = {0};
 
@@ -94,6 +107,8 @@ int main() {
                     tela = TELA_SELECAO_MAPA;
                     mapaSelecionado = 0;
                 }
+                if (IsKeyPressed(KEY_ESCAPE))
+                    tela = TELA_SAIR;
                 break;
 
             case TELA_SELECAO_MAPA:
@@ -104,9 +119,13 @@ int main() {
                     mapaSelecionado = (mapaSelecionado + 1) % TOTAL_MAPAS;
 
                 if (IsKeyPressed(KEY_ENTER)) {
-                    estadoJogoInit(&jogo, mapaSelecionado);
-                    jogo.inicio = time(NULL);
-                    tela = TELA_JOGO;
+                    // Só entra se o mapa estiver desbloqueado
+                    if (mapaSelecionado <= mapaDesbloqueado) {
+                        jogo.tempoAcumulado = 0;
+                        estadoJogoInit(&jogo, mapaSelecionado);
+                        jogo.inicio = time(NULL);
+                        tela = TELA_JOGO;
+                    }
                 }
 
                 if (IsKeyPressed(KEY_ESCAPE))
@@ -143,30 +162,56 @@ int main() {
 
                 estrelasVerificarColeta(jogo.estrelas, rS, rP, 20.0f);
 
+                // Morte por perigo elemental ou zona de morte
                 if (mapaEhAgua(jogo.mapa, rS) || mapaEhFogo(jogo.mapa, rP) ||
                     mapaEhMorte(jogo.mapa, rS) || mapaEhMorte(jogo.mapa, rP)) {
-                    jogo.tempoFinal = (int)(time(NULL) - jogo.inicio);
+                    jogo.tempoFinal = jogo.tempoAcumulado + (int)(time(NULL) - jogo.inicio);
                     tela = TELA_GAMEOVER;
+                    break;
                 }
 
-                if (mapaStarboyVenceu(jogo.mapa, &jogo.starboy) &&
-                    mapaPlasmaGirlVenceu(jogo.mapa, &jogo.plasmagirl) &&
-                    estrelasPodeProsseguir(jogo.estrelas)) {
-                    jogo.tempoFinal = (int)(time(NULL) - jogo.inicio);
-                    tela = TELA_VITORIA;
+                // Verifica se ambos os jogadores chegaram à porta
+                bool starboyNaPorta    = mapaPlasmaGirlVenceu(jogo.mapa, &jogo.starboy);
+                bool plasmaGirlNaPorta = mapaStarboyVenceu(jogo.mapa, &jogo.plasmagirl);
+                bool todasEstrelas     = estrelasPodeProsseguir(jogo.estrelas);
+
+                if (starboyNaPorta && plasmaGirlNaPorta && todasEstrelas) {
+                    // Soma o tempo desta fase ao acumulado
+                    int tempoEstaFase = (int)(time(NULL) - jogo.inicio);
+                    jogo.tempoAcumulado += tempoEstaFase;
+                    jogo.tempoFinal = jogo.tempoAcumulado;
+
+                    int proximoMapa = jogo.mapaSelecionado + 1;
+
+                    if (proximoMapa < TOTAL_MAPAS) {
+                        // ── Avança para a próxima fase ──────────────────
+                        // Desbloqueia o próximo mapa na tela de seleção
+                        if (proximoMapa > mapaDesbloqueado)
+                            mapaDesbloqueado = proximoMapa;
+
+                        estadoJogoLiberarFase(&jogo);
+                        estadoJogoInit(&jogo, proximoMapa);
+                        jogo.inicio = time(NULL);
+                        // tela permanece TELA_JOGO — transição transparente
+                    } else {
+                        // ── Último mapa concluído: vitória total ─────────
+                        // Salva o tempo automaticamente como "Jogador"
+                        scoreInserir(scores, "Jogador", jogo.tempoFinal);
+                        scoreSalvar(scores);
+                        tela = TELA_VITORIA;
+                    }
                 }
 
-                // ESC volta ao menu
+                // ESC volta ao menu de seleção de mapa
                 if (IsKeyPressed(KEY_ESCAPE)) {
                     estadoJogoDestroy(&jogo);
-                    tela = TELA_INICIO;
+                    tela = TELA_SELECAO_MAPA;
                 }
 
                 break;
             }
 
             case TELA_VITORIA:
-            case TELA_GAMEOVER:
                 if (IsKeyPressed(KEY_ENTER)) {
                     estadoJogoDestroy(&jogo);
                     tela = TELA_SAIR;
@@ -174,6 +219,24 @@ int main() {
                 if (IsKeyPressed(KEY_ESCAPE)) {
                     estadoJogoDestroy(&jogo);
                     tela = TELA_INICIO;
+                }
+                break;
+
+            case TELA_GAMEOVER:
+                if (IsKeyPressed(KEY_ENTER)) {
+                    estadoJogoDestroy(&jogo);
+                    tela = TELA_SAIR;
+                }
+                if (IsKeyPressed(KEY_ESCAPE)) {
+                    estadoJogoDestroy(&jogo);
+                    tela = TELA_SELECAO_MAPA;
+                }
+                if (IsKeyPressed(KEY_R)) {
+                    int mapaAtual = jogo.mapaSelecionado;
+                    estadoJogoDestroy(&jogo);
+                    estadoJogoInit(&jogo, mapaAtual);
+                    jogo.inicio = time(NULL);
+                    tela = TELA_JOGO;
                 }
                 break;
 
@@ -190,11 +253,11 @@ int main() {
         switch (tela) {
 
             case TELA_INICIO:
-                telaInicioDesenha();
+                telaInicioDesenha(scores);
                 break;
 
             case TELA_SELECAO_MAPA:
-                telaSelecaoMapaDesenha(mapaSelecionado);
+                telaSelecaoMapaDesenha(mapaSelecionado, mapaDesbloqueado);
                 break;
 
             case TELA_JOGO: {
@@ -216,8 +279,19 @@ int main() {
                 estrelasDesenhar(jogo.estrelas);
                 jogadorDesenha(&jogo.starboy);
                 jogadorDesenha(&jogo.plasmagirl);
-                DrawText(TextFormat("Tempo: %ds", (int)(time(NULL) - jogo.inicio)), 10, 10, 20, WHITE);
+
+                // HUD
+                int tempoTotal = jogo.tempoAcumulado + (int)(time(NULL) - jogo.inicio);
+                DrawText(TextFormat("Tempo: %ds", tempoTotal), 10, 10, 20, WHITE);
                 DrawText(TextFormat("Estrelas: %d/3", jogo.estrelas->coletadas), LARGURA - 180, 10, 20, GOLD);
+                DrawText(TextFormat("Fase: %d/%d", jogo.mapaSelecionado + 1, TOTAL_MAPAS),
+                         LARGURA / 2 - 40, 10, 20, WHITE);
+
+                // Indicador de porta: só aparece quando todas as estrelas foram pegas
+                if (estrelasPodeProsseguir(jogo.estrelas)) {
+                    DrawText("PORTA ABERTA! Va ate a saida!", LARGURA / 2 - 160, 40, 20, GREEN);
+                }
+
                 DrawText("ESC = Menu", LARGURA - 130, ALTURA - 30, 18, (Color){200,200,200,180});
                 break;
             }
