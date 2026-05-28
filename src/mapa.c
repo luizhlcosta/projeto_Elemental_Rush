@@ -7,47 +7,27 @@
 
 // Mapa do nível 1
 static int nivel1[18][32] = {
-
     {0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0},
-
     {0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0},
-
     {0 ,0 ,10,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,9 ,0 ,0},
-
     {8 ,8 ,8 ,8 ,8 ,8 ,8 ,8 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,8 ,8 ,8 ,8 ,8 ,8 ,8 ,8 ,8},
-
     {0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,8 ,8 ,0 ,0 ,0 ,0 ,0},
-
     {0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0},
-
     {0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,8 ,8 ,8 ,8 ,8 ,8 ,8 ,8 ,8 ,8 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0},
-
     {0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0},
-
     {8 ,8 ,0 ,0 ,8 ,8 ,0 ,0 ,8 ,8 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,8 ,8 ,0 ,0 ,8 ,8},
-
     {0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0},
-
     {0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,8 ,2 ,3 ,4 ,8 ,8 ,5 ,6 ,7 ,8 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0},
-
     {0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 , 8, 8,8 ,8 ,8 ,8 ,8 ,8 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0},
-
     {0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0},
-
     {8 ,8 ,8 ,8 ,8 ,8 ,8 ,8 ,8 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,8 ,8 ,8 ,8 ,8 ,8 ,8},
-
     {0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0},
-
     {8 ,8 ,8 ,8 ,8 ,8 ,8 ,8 ,8 ,8 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,8 ,8 ,8 ,8 ,8 ,8 ,8 ,8 ,8 ,8},
-
     {0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0},
-
     {11,11,11,11,11,11,1,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11}
 };
 
 // Mapa do nível 2 - Caverna de Gelo
-// Starboy (S, porta 10) começa à direita; PlasmaGirl (P, porta 9) começa à esquerda
-// Fogo mata PlasmaGirl; Água mata Starboy
 static int nivel2[18][32] = {
     {0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0},
     {0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0},
@@ -126,6 +106,7 @@ void mapaDestroy(Mapa *m) {
     UnloadTexture(m->texFogoMeio);
     UnloadTexture(m->texAgua1);
     UnloadTexture(m->texAgua2);
+    UnloadTexture(m->texAguaMeio);
     UnloadTexture(m->texPortaS);
     UnloadTexture(m->texPortaP);
     UnloadTexture(m->texChao);
@@ -142,61 +123,67 @@ int mapaEhMorte(Mapa *m, Rectangle rect) {
     return 0;
 }
 
+// Desenha tudo EXCETO água e fogo (chamado antes dos jogadores)
 void mapaDesenha(Mapa *m) {
-
     for (int y = 0; y < m->linhas; y++) {
-
         for (int x = 0; x < m->colunas; x++) {
-
             int tile = m->grade[y][x];
-
             int posX = x * m->tileSize;
             int posY = y * m->tileSize;
 
             switch (tile) {
-
                 case PAREDE:
                     DrawTexture(m->texParede, posX, posY, WHITE);
                     break;
-
-                case FOGO_1:
-                    DrawTexture(m->texFogo1, posX, posY, WHITE);
-                    break;
-
-                case FOGO_2:
-                    DrawTexture(m->texFogo2, posX, posY, WHITE);
-                    break;
-
-                case FOGO_MEIO:
-                    DrawTexture(m->texFogoMeio, posX, posY, WHITE);
-                    break;
-
-                case AGUA_1:
-                    DrawTexture(m->texAgua1, posX, posY, WHITE);
-                    break;
-                
-                case AGUA_2:
-                    DrawTexture(m->texAgua2, posX, posY, WHITE);
-                    break;
-
-                case AGUA_MEIO:
-                    DrawTexture(m->texAguaMeio, posX, posY, WHITE);
-                    break;
-
                 case PORTA_S:
                     DrawTexture(m->texPortaS, posX, posY, WHITE);
                     break;
-
                 case PORTA_P:
                     DrawTexture(m->texPortaP, posX, posY, WHITE);
                     break;
-
                 case TILE_CHAO:
                     DrawTexture(m->texChao, posX, posY, WHITE);
                     break;
-                case MORTE:
+                // Água, fogo e morte são omitidos aqui — desenhados em mapaDesenhaCamadaPerigo
+                default:
                     break;
+            }
+        }
+    }
+}
 
+// Desenha água e fogo POR CIMA dos jogadores, com transparência para dar
+// impressão de imersão quando o personagem resistente entra no elemento.
+void mapaDesenhaCamadaPerigo(Mapa *m) {
+    for (int y = 0; y < m->linhas; y++) {
+        for (int x = 0; x < m->colunas; x++) {
+            int tile = m->grade[y][x];
+            int posX = x * m->tileSize;
+            int posY = y * m->tileSize;
+
+            // Semi-transparente: o jogador aparece "por baixo" do elemento,
+            // como se estivesse mergulhado. Ajuste o alpha (0-255) a gosto.
+            Color tint = (Color){255, 255, 255, 200};
+
+            switch (tile) {
+                case FOGO_1:
+                    DrawTexture(m->texFogo1,    posX, posY, tint);
+                    break;
+                case FOGO_2:
+                    DrawTexture(m->texFogo2,    posX, posY, tint);
+                    break;
+                case FOGO_MEIO:
+                    DrawTexture(m->texFogoMeio, posX, posY, tint);
+                    break;
+                case AGUA_1:
+                    DrawTexture(m->texAgua1,    posX, posY, tint);
+                    break;
+                case AGUA_2:
+                    DrawTexture(m->texAgua2,    posX, posY, tint);
+                    break;
+                case AGUA_MEIO:
+                    DrawTexture(m->texAguaMeio, posX, posY, tint);
+                    break;
                 default:
                     break;
             }
@@ -213,12 +200,10 @@ int mapaEhParede(Mapa *m, Rectangle rect) {
     for (int y = y1; y <= y2; y++)
         for (int x = x1; x <= x2; x++)
             if (y >= 0 && y < m->linhas && x >= 0 && x < m->colunas)
-                if (m->grade[y][x] == TILE_CHAO) {
+                if (m->grade[y][x] == TILE_CHAO)
                     return 1;
-                }
     return 0;
 }
-
 
 int mapaEhFogo(Mapa *m, Rectangle rect) {
     int x = (int)((rect.x + rect.width/2) / m->tileSize);

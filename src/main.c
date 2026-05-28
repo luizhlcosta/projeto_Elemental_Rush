@@ -279,6 +279,7 @@ int main() {
                 estrelasDesenhar(jogo.estrelas);
                 jogadorDesenha(&jogo.starboy);
                 jogadorDesenha(&jogo.plasmagirl);
+                mapaDesenhaCamadaPerigo(jogo.mapa);  // água e fogo por cima dos jogadores
 
                 // HUD
                 int tempoTotal = jogo.tempoAcumulado + (int)(time(NULL) - jogo.inicio);

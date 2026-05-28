@@ -1,5 +1,3 @@
-//mapa.h
-
 #ifndef MAPA_H
 #define MAPA_H
 
@@ -7,8 +5,10 @@
 
 Mapa* mapaInit();
 Mapa* mapaInitNivel(int nivel);
+
 void mapaDestroy(Mapa *m);
 void mapaDesenha(Mapa *m);
+void mapaDesenhaCamadaPerigo(Mapa *m);
 int mapaColisaoTopo(Mapa *m, Rectangle rect, float peFrameAnterior, float velY);
 int mapaEhMorte(Mapa *m, Rectangle rect);
 int mapaEhParede(Mapa *m, Rectangle rect);
