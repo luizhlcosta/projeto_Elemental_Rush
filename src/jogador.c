@@ -97,6 +97,37 @@ void jogadorUpdate(Jogador *j, Mapa *m) {
         }
     }
 
+    else if (j->velocidade.y < 0) {
+
+        // Verifica todas as linhas entre a cabeça atual e onde estava no frame anterior
+        // para evitar tunneling em pulos rápidos
+        int yAtual   = (int)(j->posicao.y / TILE_SIZE);
+        int yAnterior = (int)((j->posicao.y - j->velocidade.y * dt) / TILE_SIZE);
+
+        int x1 = (int)( j->posicao.x               / TILE_SIZE);
+        int x2 = (int)((j->posicao.x + j->largura - 1) / TILE_SIZE);
+
+        // Varre do tile mais acima até o tile onde estava antes do movimento
+        for (int yTopo = yAtual; yTopo <= yAnterior; yTopo++) {
+            for (int x = x1; x <= x2; x++) {
+                if (yTopo >= 0 && yTopo < m->linhas && x >= 0 && x < m->colunas) {
+                    int tile = m->grade[yTopo][x];
+
+                    if (tile == AGUA_1 || tile == AGUA_2 || tile == AGUA_MEIO ||
+                        tile == FOGO_1 || tile == FOGO_2 || tile == FOGO_MEIO) {
+
+                        // Alinha o topo do jogador à base do tile fluido
+                        j->posicao.y = (float)((yTopo + 1) * TILE_SIZE);
+                        j->velocidade.y = 0;
+                        goto fim_colisao_fluid; // sai dos dois loops
+                    }
+                }
+            }
+        }
+        fim_colisao_fluid:;
+    }
+
+
     // Limites da tela
     if (j->posicao.x < 0) j->posicao.x = 0;
     if (j->posicao.x + j->largura > GetScreenWidth())
