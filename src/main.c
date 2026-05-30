@@ -5,6 +5,7 @@
 #include "animacao.h"
 #include "jogo.h"
 #include "score.h"
+#include "musica.h"
 #include <time.h>
 #include <math.h>
 
@@ -81,6 +82,8 @@ int main() {
     SetExitKey(KEY_NULL);  // desativa ESC como tecla de fechar janela
     SetTargetFPS(120);
 
+    musicaInit();
+
     Texture2D background = LoadTexture("assets/background_vulcanico.png");
 
     RenderTexture2D target = LoadRenderTexture(LARGURA, ALTURA);
@@ -98,6 +101,9 @@ int main() {
     EstadoJogo jogo = {0};
 
     while (!WindowShouldClose()) {
+
+        // ── AUDIO UPDATE ────────────────────────────────────
+        musicaUpdate();
 
         // ── UPDATE ──────────────────────────────────────────
         switch (tela) {
@@ -337,6 +343,7 @@ int main() {
     scoreDestroy(scores);
     UnloadTexture(background);
     UnloadRenderTexture(target);
+    musicaDestroy();
     CloseWindow();
 
     return 0;
