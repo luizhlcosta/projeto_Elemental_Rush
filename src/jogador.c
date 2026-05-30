@@ -88,6 +88,15 @@ void jogadorUpdate(Jogador *j, Mapa *m) {
         j->velocidade.y = 0;
     }
 
+    else if (j->velocidade.y > 0) {
+        int fundoFluid = mapaFundoFluid(m, rV);
+        if (fundoFluid > 0 && (j->posicao.y + j->altura) >= (float)(fundoFluid - 4)) {
+            j->posicao.y = (float)(fundoFluid - 4) - j->altura;
+            j->velocidade.y = 0;
+            j->noChao = 1;
+        }
+    }
+
     // Limites da tela
     if (j->posicao.x < 0) j->posicao.x = 0;
     if (j->posicao.x + j->largura > GetScreenWidth())
