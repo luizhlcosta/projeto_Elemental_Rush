@@ -297,10 +297,23 @@ ListaEstrelas* estrelasInit(Vector2 *posicoes, int quantidade) {
     lista->total     = quantidade;
     lista->coletadas = 0;
 
+    #define STAR_FRAMES 13
+    #define STAR_FPS    10
+
+    Texture2D texStar = LoadTexture("assets/star.png");
+    SetTextureFilter(texStar, TEXTURE_FILTER_POINT);
+
+    Rectangle frames[STAR_FRAMES];
+    float fw = (float)texStar.width / STAR_FRAMES;
+    float fh = (float)texStar.height;
+    for (int i = 0; i < STAR_FRAMES; i++)
+        frames[i] = (Rectangle){ i * fw, 0, fw, fh };
+
     for (int i = quantidade - 1; i >= 0; i--) {
         StarNode *novo  = (StarNode*) malloc(sizeof(StarNode));
         novo->posicao   = posicoes[i];
         novo->coletada  = false;
+        novo->animacao  = Criar_Animacao_Sprite(texStar, STAR_FPS, frames, STAR_FRAMES);
         novo->proximo   = lista->inicio;
         lista->inicio   = novo;
     }
@@ -329,8 +342,15 @@ void estrelasDesenhar(ListaEstrelas *lista) {
     StarNode *atual = lista->inicio;
     while (atual != NULL) {
         if (!atual->coletada) {
-            DrawPoly(atual->posicao, 5, 14.0f, 18.0f, GOLD);
-            DrawPolyLinesEx(atual->posicao, 5, 14.0f, 18.0f, 1.5f, GOLD);
+            float tamanho = 32.0f;
+            Rectangle dest = {
+                atual->posicao.x - tamanho / 2,
+                atual->posicao.y - tamanho / 2,
+                tamanho,
+                tamanho
+            };
+            Vector2 origin = {0, 0};
+            DesenhaAnimacaoSpritePro(&atual->animacao, dest, origin, 0.0f, WHITE, 0, 0, 0);
         }
         atual = atual->proximo;
     }
@@ -338,11 +358,19 @@ void estrelasDesenhar(ListaEstrelas *lista) {
 
 void estrelasDestroy(ListaEstrelas **lista) {
     StarNode *atual = (*lista)->inicio;
+    Texture2D texParaDescarregar = {0};
+    bool primeiroNoh = true;
     while (atual != NULL) {
         StarNode *prox = atual->proximo;
+        if (primeiroNoh) {
+            texParaDescarregar = atual->animacao.atlas;
+            primeiroNoh = false;
+        }
+        PararAnimacaoSprite(atual->animacao);
         free(atual);
         atual = prox;
     }
+    if (!primeiroNoh) UnloadTexture(texParaDescarregar);
     free(*lista);
     *lista = NULL;
 }

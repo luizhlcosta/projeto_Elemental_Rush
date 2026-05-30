@@ -72,6 +72,7 @@ typedef struct Mapa {
 typedef struct StarNode {
     Vector2 posicao;
     bool coletada;
+    AnimacaoSprite animacao;
     struct StarNode *proximo;
 } StarNode;
 
