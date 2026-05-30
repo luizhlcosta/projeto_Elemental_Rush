@@ -76,7 +76,7 @@ static void estadoJogoDestroy(EstadoJogo *e) {
 
 int main() {
 
-    InitWindow(LARGURA, ALTURA, "Elemental Rush");
+    InitWindow(1920, 1080, "Elemental Rush");
     SetWindowState(FLAG_WINDOW_RESIZABLE);
     SetExitKey(KEY_NULL);  // desativa ESC como tecla de fechar janela
     SetTargetFPS(120);

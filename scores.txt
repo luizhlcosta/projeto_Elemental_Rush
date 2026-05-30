@@ -1,1 +1,4 @@
+Jogador 30
+Jogador 77
 Jogador 93
+Jogador 146

@@ -5,7 +5,7 @@
 #include "tipos.h"
 
 #define GRAVIDADE   800.0f
-#define FORCA_PULO -450.0f
+#define FORCA_PULO -440.0f
 #define VELOCIDADE  200.0f
 
 // ── Spritesheets ──────────────────────────────────────────────────────────────
