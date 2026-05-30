@@ -9,6 +9,7 @@ Mapa* mapaInit();
 Mapa* mapaInitNivel(int nivel);
 void mapaDestroy(Mapa *m);
 void mapaDesenha(Mapa *m);
+int mapaFundoFluid(Mapa *m, Rectangle rect);
 int mapaColisaoTopo(Mapa *m, Rectangle rect, float peFrameAnterior, float velY);
 int mapaEhMorte(Mapa *m, Rectangle rect);
 int mapaEhParede(Mapa *m, Rectangle rect);

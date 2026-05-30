@@ -36,7 +36,7 @@ static int nivel1[18][32] = {
 
     {8 ,8 ,8 ,8 ,8 ,8 ,8 ,5 ,6 ,6 ,7 ,8 ,8 ,8 ,8 ,8 ,8 ,8 ,8 ,2 ,3 ,3 ,4 ,8 ,8 ,8 ,8 ,8 ,0 ,0 ,0 ,0},
 
-    {0 ,0 ,0 ,0 ,0 ,0 ,0 ,8 ,8 ,8 ,8 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,8 ,8 ,8 ,8 ,0 ,0 ,0 ,0 ,0 ,8 ,0 ,0 ,0},
+    {0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,8 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,8 ,8 ,8 ,8 ,0 ,0 ,0 ,0 ,0 ,8 ,0 ,0 ,0},
 
     {0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0},
 
@@ -234,6 +234,45 @@ int mapaEhAgua(Mapa *m, Rectangle rect) {
     if (y >= 0 && y < m->linhas && x >= 0 && x < m->colunas)
         return m->grade[y][x] == AGUA_1 || m->grade[y][x] == AGUA_2 || m->grade[y][x] == AGUA_MEIO;
     return 0;
+}
+
+// Verifica se o jogador está prestes a afundar além do fundo de um tile fluido
+// (água ou lava). Retorna o Y em pixels do fundo desse tile, ou -1 se não houver
+// nenhum tile fluido na posição atual dos pés do jogador.
+int mapaFundoFluid(Mapa *m, Rectangle rect) {
+
+    // Calcula as colunas de tile que o jogador ocupa horizontalmente.
+    // x1 = coluna do lado esquerdo, x2 = coluna do lado direito.
+    // O "-1" em x2 evita contar a coluna seguinte quando o jogador
+    // está exatamente na borda de um tile.
+    int x1 = (int)( rect.x               / m->tileSize);
+    int x2 = (int)((rect.x + rect.width - 1) / m->tileSize);
+
+    // Linha de tile onde estão os pés do jogador (borda inferior do rect).
+    // É aqui que verificamos se existe um tile fluido "sustentando" ele.
+    int yPes = (int)((rect.y + rect.height) / m->tileSize);
+
+    // Percorre todas as colunas que o jogador cobre horizontalmente
+    for (int x = x1; x <= x2; x++) {
+
+        // Checa se a posição está dentro dos limites do mapa
+        // para não acessar memória fora do array da grade
+        if (yPes >= 0 && yPes < m->linhas && x >= 0 && x < m->colunas) {
+
+            int tile = m->grade[yPes][x];
+
+            // Se qualquer coluna sob os pés for um tile fluido (água ou lava),
+            // retorna o Y em pixels do fundo desse tile.
+            // (yPes + 1) * tileSize é a borda inferior do tile em pixels.
+            if (tile == AGUA_1 || tile == AGUA_2 || tile == AGUA_MEIO ||
+                tile == FOGO_1 || tile == FOGO_2 || tile == FOGO_MEIO) {
+                return (yPes + 1) * m->tileSize;
+            }
+        }
+    }
+
+    // Nenhum tile fluido encontrado sob os pés: retorna -1 para indicar ausência
+    return -1;
 }
 
 int mapaStarboyVenceu(Mapa *m, Jogador *j) {
