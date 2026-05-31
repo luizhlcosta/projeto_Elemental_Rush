@@ -13,9 +13,9 @@
 // Ambos os personagens usam tiras horizontais de 160x32 px (5 frames de 32x32).
 // Para adicionar novas animações, crie o arquivo e replique o bloco abaixo.
 
-#define STARBOY_SPRITE  "assets/fireidle.png"
-#define STARBOY_FRAMES  8
-#define STARBOY_FPS     10
+#define LAVA_SPRITE  "assets/fireidle.png"
+#define LAVA_FRAMES  8
+#define LAVA_FPS     10
 
 #define ICE_SPRITE "assets/iceidle.png"
 #define ICE_FRAMES 8
@@ -35,9 +35,9 @@ void jogadorInit(Jogador *j, float x, float y, Color cor, char simbolo) {
     j->olhandoEsquerda = 0;
     j->estadoAnim      = ANIM_IDLE;
 
-    const char *caminho = (simbolo == 'S') ? STARBOY_SPRITE    : ICE_SPRITE;
-    int         nFrames = (simbolo == 'S') ? STARBOY_FRAMES    : ICE_FRAMES;
-    int         fps     = (simbolo == 'S') ? STARBOY_FPS       : ICE_FPS;
+    const char *caminho = (simbolo == 'S') ? LAVA_SPRITE    : ICE_SPRITE;
+    int         nFrames = (simbolo == 'S') ? LAVA_FRAMES    : ICE_FRAMES;
+    int         fps     = (simbolo == 'S') ? LAVA_FPS       : ICE_FPS;
 
     Texture2D tex = LoadTexture(caminho);
     SetTextureFilter(tex, TEXTURE_FILTER_POINT);
@@ -185,7 +185,7 @@ void jogadorDestroi(Jogador *j) {
     UnloadTexture(j->animacoes[ANIM_IDLE].atlas);
 }
 
-void jogadorPulaStarboy(Jogador *j) {
+void jogadorPulaLava(Jogador *j) {
     if (j->noChao) {
         j->velocidade.y = FORCA_PULO;
         j->noChao = 0;
@@ -193,7 +193,7 @@ void jogadorPulaStarboy(Jogador *j) {
     }
 }
 
-void jogadorPulaICE(Jogador *j) {
+void jogadorPulaIce(Jogador *j) {
     if (j->noChao) {
         j->velocidade.y = FORCA_PULO;
         j->noChao = 0;
