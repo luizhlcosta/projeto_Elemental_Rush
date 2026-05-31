@@ -62,7 +62,7 @@ static Vector2 posEstrelasMapa[TOTAL_MAPAS][3] = {
 };
 
 typedef struct {
-    Jogador starboy;
+    Jogador lava;
     Jogador ice;
     Mapa   *mapa;
     ListaEstrelas *estrelas;
@@ -77,7 +77,7 @@ typedef struct {
 static void estadoJogoInit(EstadoJogo *e, int mapaSelecionado) {
     e->mapaSelecionado = mapaSelecionado;
 
-    jogadorInit(&e->starboy,
+    jogadorInit(&e->lava,
         posInicio[mapaSelecionado][0][0],
         posInicio[mapaSelecionado][0][1],
         YELLOW, 'S');
@@ -97,7 +97,7 @@ static void estadoJogoInit(EstadoJogo *e, int mapaSelecionado) {
 static void estadoJogoLiberarFase(EstadoJogo *e) {
     estrelasDestroy(&e->estrelas);
     mapaDestroy(e->mapa);
-    jogadorDestroi(&e->starboy);
+    jogadorDestroi(&e->lava);
     jogadorDestroi(&e->ice);
 }
 
@@ -176,35 +176,35 @@ int main() {
                 if (IsKeyPressed(KEY_M)) musicaToggle();
 
                 // Starboy - WASD
-                jogo.starboy.velocidade.x = 0;
-                if (IsKeyDown(KEY_A)) jogo.starboy.velocidade.x = -200;
-                if (IsKeyDown(KEY_D)) jogo.starboy.velocidade.x =  200;
+                jogo.lava.velocidade.x = 0;
+                if (IsKeyDown(KEY_A)) jogo.lava.velocidade.x = -200;
+                if (IsKeyDown(KEY_D)) jogo.lava.velocidade.x =  200;
 
                 // Ice - Setas
                 jogo.ice.velocidade.x = 0;
                 if (IsKeyDown(KEY_LEFT))  jogo.ice.velocidade.x = -200;
                 if (IsKeyDown(KEY_RIGHT)) jogo.ice.velocidade.x =  200;
 
-                jogadorUpdate(&jogo.starboy,    jogo.mapa);
+                jogadorUpdate(&jogo.lava,    jogo.mapa);
                 jogadorUpdate(&jogo.ice, jogo.mapa);
 
-                if (IsKeyDown(KEY_W))   jogadorPulaStarboy(&jogo.starboy);
-                if (IsKeyDown(KEY_UP))  jogadorPulaICE(&jogo.ice);
+                if (IsKeyDown(KEY_W))   jogadorPulaLava(&jogo.lava);
+                if (IsKeyDown(KEY_UP))  jogadorPulaIce(&jogo.ice);
 
-                Rectangle rS = {
-                    jogo.starboy.posicao.x, jogo.starboy.posicao.y,
-                    jogo.starboy.largura,   jogo.starboy.altura
+                Rectangle rL = {
+                    jogo.lava.posicao.x, jogo.lava.posicao.y,
+                    jogo.lava.largura,   jogo.lava.altura
                 };
                 Rectangle rI = {
                     jogo.ice.posicao.x, jogo.ice.posicao.y,
                     jogo.ice.largura,   jogo.ice.altura
                 };
 
-                estrelasVerificarColeta(jogo.estrelas, rS, rI, 20.0f);
+                estrelasVerificarColeta(jogo.estrelas, rL, rI, 20.0f);
 
                 // Morte por perigo elemental ou zona de morte
-                if (mapaEhAgua(jogo.mapa, rS) || mapaEhFogo(jogo.mapa, rI) ||
-                    mapaEhMorte(jogo.mapa, rS) || mapaEhMorte(jogo.mapa, rI)) {
+                if (mapaEhAgua(jogo.mapa, rL) || mapaEhFogo(jogo.mapa, rI) ||
+                    mapaEhMorte(jogo.mapa, rL) || mapaEhMorte(jogo.mapa, rI)) {
                     jogo.tempoFinal = jogo.tempoAcumulado + (int)(time(NULL) - jogo.inicio);
                     musicaToggle();
                     musicaTocaMorte();
@@ -213,11 +213,11 @@ int main() {
                 }
 
                 // Verifica se ambos os jogadores chegaram à porta
-                bool starboyNaPorta = mapaStarboyVenceu(jogo.mapa, &jogo.starboy);
+                bool LavaNaPorta = mapaLavaVenceu(jogo.mapa, &jogo.lava);
                 bool iceNaPorta     = mapaIceVenceu(jogo.mapa, &jogo.ice);
                 bool todasEstrelas     = estrelasPodeProsseguir(jogo.estrelas);
 
-                if (starboyNaPorta && iceNaPorta && todasEstrelas) {
+                if (LavaNaPorta && iceNaPorta && todasEstrelas) {
                     // Soma o tempo desta fase ao acumulado
                     int tempoEstaFase = (int)(time(NULL) - jogo.inicio);
                     jogo.tempoAcumulado += tempoEstaFase;
@@ -321,7 +321,7 @@ int main() {
 
                 mapaDesenha(jogo.mapa);
                 estrelasDesenhar(jogo.estrelas);
-                jogadorDesenha(&jogo.starboy, jogo.mapa);
+                jogadorDesenha(&jogo.lava, jogo.mapa);
                 jogadorDesenha(&jogo.ice, jogo.mapa);
 
                 // HUD

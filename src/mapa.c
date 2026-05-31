@@ -325,7 +325,7 @@ int mapaFundoFluid(Mapa *m, Rectangle rect) {
     return -1;
 }
 
-int mapaStarboyVenceu(Mapa *m, Jogador *j) {
+int mapaLavaVenceu(Mapa *m, Jogador *j) {
     int x = (int)((j->posicao.x + j->largura/2) / m->tileSize);
     int y = (int)((j->posicao.y + j->altura/2) / m->tileSize);
     if (y >= 0 && y < m->linhas && x >= 0 && x < m->colunas)

@@ -15,7 +15,7 @@ int mapaEhMorte(Mapa *m, Rectangle rect);
 int mapaEhParede(Mapa *m, Rectangle rect);
 int mapaEhFogo(Mapa *m, Rectangle rect);
 int mapaEhAgua(Mapa *m, Rectangle rect);
-int mapaStarboyVenceu(Mapa *m, Jogador *j);
+int mapaLavaVenceu(Mapa *m, Jogador *j);
 int mapaIceVenceu(Mapa *m, Jogador *j);
 ListaEstrelas* estrelasInit(Vector2 *posicoes, int quantidade);
 void estrelasVerificarColeta(ListaEstrelas *lista, Rectangle jog1, Rectangle jog2, float raio);
