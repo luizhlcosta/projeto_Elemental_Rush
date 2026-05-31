@@ -17,9 +17,9 @@
 #define STARBOY_FRAMES  8
 #define STARBOY_FPS     10
 
-#define PLASMAGIRL_SPRITE "assets/plasmaidle.png"
-#define PLASMAGIRL_FRAMES 8
-#define PLASMAGIRL_FPS    8
+#define ICE_SPRITE "assets/iceidle.png"
+#define ICE_FRAMES 8
+#define ICE_FPS    8
 
 // ─────────────────────────────────────────────────────────────────────────────
 
@@ -35,9 +35,9 @@ void jogadorInit(Jogador *j, float x, float y, Color cor, char simbolo) {
     j->olhandoEsquerda = 0;
     j->estadoAnim      = ANIM_IDLE;
 
-    const char *caminho = (simbolo == 'S') ? STARBOY_SPRITE    : PLASMAGIRL_SPRITE;
-    int         nFrames = (simbolo == 'S') ? STARBOY_FRAMES    : PLASMAGIRL_FRAMES;
-    int         fps     = (simbolo == 'S') ? STARBOY_FPS       : PLASMAGIRL_FPS;
+    const char *caminho = (simbolo == 'S') ? STARBOY_SPRITE    : ICE_SPRITE;
+    int         nFrames = (simbolo == 'S') ? STARBOY_FRAMES    : ICE_FRAMES;
+    int         fps     = (simbolo == 'S') ? STARBOY_FPS       : ICE_FPS;
 
     Texture2D tex = LoadTexture(caminho);
     SetTextureFilter(tex, TEXTURE_FILTER_POINT);
@@ -193,7 +193,7 @@ void jogadorPulaStarboy(Jogador *j) {
     }
 }
 
-void jogadorPulaPlasmaGirl(Jogador *j) {
+void jogadorPulaICE(Jogador *j) {
     if (j->noChao) {
         j->velocidade.y = FORCA_PULO;
         j->noChao = 0;

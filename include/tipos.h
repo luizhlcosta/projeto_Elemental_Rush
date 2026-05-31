@@ -20,8 +20,8 @@
 #define AGUA_MEIO 6
 #define AGUA_2    7 //direita 
 #define TILE_CHAO 8
-#define PORTA_P   9
-#define PORTA_S   10
+#define PORTA_ICE   9
+#define PORTA_LAVA   10
 #define MORTE     11
 
 typedef enum {
@@ -59,8 +59,8 @@ typedef struct Mapa {
     Texture2D texAgua1;
     Texture2D texAgua2;
     Texture2D texAguaMeio;
-    Texture2D texPortaS;
-    Texture2D texPortaP;
+    Texture2D texPortaLava;
+    Texture2D texPortaIce;
     Texture2D texChao;
     
 } Mapa;
