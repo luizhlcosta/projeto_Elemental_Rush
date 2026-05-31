@@ -36,13 +36,13 @@ static void progressoSalvar(int mapaDesbloqueado) {
 // [mapa][jogador] -> {x, y}
 static float posInicio[TOTAL_MAPAS][2][2] = {
     // Mapa 0 (Vulcão): Starboy à esquerda, PlasmaGirl à direita
-    { {80.0f, 480.0f}, {980.0f, 480.0f} },
+    { {80.0f, 660.0f}, {980.0f, 540.0f} },
     // Mapa 1 (Caverna de Gelo): Starboy à direita, PlasmaGirl à esquerda
     { {980.0f, 480.0f}, {80.0f, 480.0f} },
 
-    { {1100.0f, 480.0f}, {0.0f, 480.0f} },
+    { {1100.0f, 530.0f}, {0.0f, 530.0f} },
 
-    { {0.0f,   480.0f}, {1150.0f,480.0f} },
+    { {0.0f,   600.0f}, {1150.0f,600.0f} },
 
     { {0.0f,    480.0f}, {1150.0f, 480.0f} },
 };
@@ -63,7 +63,7 @@ static Vector2 posEstrelasMapa[TOTAL_MAPAS][3] = {
 
 typedef struct {
     Jogador starboy;
-    Jogador plasmagirl;
+    Jogador ice;
     Mapa   *mapa;
     ListaEstrelas *estrelas;
     time_t  inicio;
@@ -81,7 +81,7 @@ static void estadoJogoInit(EstadoJogo *e, int mapaSelecionado) {
         posInicio[mapaSelecionado][0][0],
         posInicio[mapaSelecionado][0][1],
         YELLOW, 'S');
-    jogadorInit(&e->plasmagirl,
+    jogadorInit(&e->ice,
         posInicio[mapaSelecionado][1][0],
         posInicio[mapaSelecionado][1][1],
         WHITE, 'P');
@@ -98,7 +98,7 @@ static void estadoJogoLiberarFase(EstadoJogo *e) {
     estrelasDestroy(&e->estrelas);
     mapaDestroy(e->mapa);
     jogadorDestroi(&e->starboy);
-    jogadorDestroi(&e->plasmagirl);
+    jogadorDestroi(&e->ice);
 }
 
 // Libera tudo e zera o acumulado (usado ao voltar ao menu)
@@ -180,31 +180,31 @@ int main() {
                 if (IsKeyDown(KEY_A)) jogo.starboy.velocidade.x = -200;
                 if (IsKeyDown(KEY_D)) jogo.starboy.velocidade.x =  200;
 
-                // PlasmaGirl - Setas
-                jogo.plasmagirl.velocidade.x = 0;
-                if (IsKeyDown(KEY_LEFT))  jogo.plasmagirl.velocidade.x = -200;
-                if (IsKeyDown(KEY_RIGHT)) jogo.plasmagirl.velocidade.x =  200;
+                // Ice - Setas
+                jogo.ice.velocidade.x = 0;
+                if (IsKeyDown(KEY_LEFT))  jogo.ice.velocidade.x = -200;
+                if (IsKeyDown(KEY_RIGHT)) jogo.ice.velocidade.x =  200;
 
                 jogadorUpdate(&jogo.starboy,    jogo.mapa);
-                jogadorUpdate(&jogo.plasmagirl, jogo.mapa);
+                jogadorUpdate(&jogo.ice, jogo.mapa);
 
                 if (IsKeyDown(KEY_W))   jogadorPulaStarboy(&jogo.starboy);
-                if (IsKeyDown(KEY_UP))  jogadorPulaPlasmaGirl(&jogo.plasmagirl);
+                if (IsKeyDown(KEY_UP))  jogadorPulaICE(&jogo.ice);
 
                 Rectangle rS = {
                     jogo.starboy.posicao.x, jogo.starboy.posicao.y,
                     jogo.starboy.largura,   jogo.starboy.altura
                 };
-                Rectangle rP = {
-                    jogo.plasmagirl.posicao.x, jogo.plasmagirl.posicao.y,
-                    jogo.plasmagirl.largura,   jogo.plasmagirl.altura
+                Rectangle rI = {
+                    jogo.ice.posicao.x, jogo.ice.posicao.y,
+                    jogo.ice.largura,   jogo.ice.altura
                 };
 
-                estrelasVerificarColeta(jogo.estrelas, rS, rP, 20.0f);
+                estrelasVerificarColeta(jogo.estrelas, rS, rI, 20.0f);
 
                 // Morte por perigo elemental ou zona de morte
-                if (mapaEhAgua(jogo.mapa, rS) || mapaEhFogo(jogo.mapa, rP) ||
-                    mapaEhMorte(jogo.mapa, rS) || mapaEhMorte(jogo.mapa, rP)) {
+                if (mapaEhAgua(jogo.mapa, rS) || mapaEhFogo(jogo.mapa, rI) ||
+                    mapaEhMorte(jogo.mapa, rS) || mapaEhMorte(jogo.mapa, rI)) {
                     jogo.tempoFinal = jogo.tempoAcumulado + (int)(time(NULL) - jogo.inicio);
                     musicaToggle();
                     musicaTocaMorte();
@@ -213,11 +213,11 @@ int main() {
                 }
 
                 // Verifica se ambos os jogadores chegaram à porta
-                bool starboyNaPorta    = mapaPlasmaGirlVenceu(jogo.mapa, &jogo.starboy);
-                bool plasmaGirlNaPorta = mapaStarboyVenceu(jogo.mapa, &jogo.plasmagirl);
+                bool starboyNaPorta = mapaStarboyVenceu(jogo.mapa, &jogo.starboy);
+                bool iceNaPorta     = mapaIceVenceu(jogo.mapa, &jogo.ice);
                 bool todasEstrelas     = estrelasPodeProsseguir(jogo.estrelas);
 
-                if (starboyNaPorta && plasmaGirlNaPorta && todasEstrelas) {
+                if (starboyNaPorta && iceNaPorta && todasEstrelas) {
                     // Soma o tempo desta fase ao acumulado
                     int tempoEstaFase = (int)(time(NULL) - jogo.inicio);
                     jogo.tempoAcumulado += tempoEstaFase;
@@ -322,7 +322,7 @@ int main() {
                 mapaDesenha(jogo.mapa);
                 estrelasDesenhar(jogo.estrelas);
                 jogadorDesenha(&jogo.starboy, jogo.mapa);
-                jogadorDesenha(&jogo.plasmagirl, jogo.mapa);
+                jogadorDesenha(&jogo.ice, jogo.mapa);
 
                 // HUD
                 int tempoTotal = jogo.tempoAcumulado + (int)(time(NULL) - jogo.inicio);

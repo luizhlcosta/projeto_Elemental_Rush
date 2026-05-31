@@ -6,10 +6,10 @@ void telaInicioDesenha(ListaScores *scores) {
     ClearBackground(BLACK);
     DrawText("ELEMENTAL", 220, 150, 60, RED);
     DrawText("RUSH", 320, 220, 60, YELLOW);
-    DrawText("S - Starboy    usa: A D e W para pular", 200, 340, 22, YELLOW);
-    DrawText("P - PlasmaGirl usa: Setas e Cima para pular", 200, 370, 22, YELLOW);
-    DrawText("* Fogo = mata PlasmaGirl", 220, 420, 18, ORANGE);
-    DrawText("~ Agua = mata Starboy",    220, 445, 18, BLUE);
+    DrawText("LAVA usa: A D e W para pular", 200, 340, 22, YELLOW);
+    DrawText("ICE usa: Setas e Cima para pular", 200, 370, 22, YELLOW);
+    DrawText("* LAVA = mata ICE", 220, 420, 18, ORANGE);
+    DrawText("~ GELO = mata LAVA",    220, 445, 18, BLUE);
 
     // Exibe o recorde se existir
     if (scores != NULL && scores->inicio != NULL) {

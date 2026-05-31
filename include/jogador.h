@@ -8,6 +8,6 @@ void jogadorUpdate(Jogador *j, Mapa *m);
 void jogadorDesenha(Jogador *j, Mapa *m);
 void jogadorDestroi(Jogador *j);
 void jogadorPulaStarboy(Jogador *j);
-void jogadorPulaPlasmaGirl(Jogador *j);
+void jogadorPulaICE(Jogador *j);
 
 #endif

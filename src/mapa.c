@@ -122,8 +122,8 @@ static void mapaCarregaTexturas(Mapa *m) {
     m->texAgua1    = LoadTexture("assets/tiles/agua1.png");
     m->texAgua2    = LoadTexture("assets/tiles/agua2.png");
     m->texAguaMeio = LoadTexture("assets/tiles/aguaMeio.png");
-    m->texPortaS   = LoadTexture("assets/tiles/porta_s.png");
-    m->texPortaP   = LoadTexture("assets/tiles/porta_p.png");
+    m->texPortaLava   = LoadTexture("assets/tiles/porta_lava.png");
+    m->texPortaIce  = LoadTexture("assets/tiles/porta_ice.png");
     m->texChao     = LoadTexture("assets/tiles/chao.png");
 
     SetTextureFilter(m->texParede,   TEXTURE_FILTER_POINT);
@@ -133,8 +133,8 @@ static void mapaCarregaTexturas(Mapa *m) {
     SetTextureFilter(m->texAgua1,    TEXTURE_FILTER_POINT);
     SetTextureFilter(m->texAgua2,    TEXTURE_FILTER_POINT);
     SetTextureFilter(m->texAguaMeio, TEXTURE_FILTER_POINT);
-    SetTextureFilter(m->texPortaS,   TEXTURE_FILTER_POINT);
-    SetTextureFilter(m->texPortaP,   TEXTURE_FILTER_POINT);
+    SetTextureFilter(m->texPortaLava,   TEXTURE_FILTER_POINT);
+    SetTextureFilter(m->texPortaIce,   TEXTURE_FILTER_POINT);
     SetTextureFilter(m->texChao,     TEXTURE_FILTER_POINT);
 }
 
@@ -176,8 +176,8 @@ void mapaDestroy(Mapa *m) {
     UnloadTexture(m->texFogoMeio);
     UnloadTexture(m->texAgua1);
     UnloadTexture(m->texAgua2);
-    UnloadTexture(m->texPortaS);
-    UnloadTexture(m->texPortaP);
+    UnloadTexture(m->texPortaLava);
+    UnloadTexture(m->texPortaIce);
     UnloadTexture(m->texChao);
 
     free(m->grade);
@@ -233,12 +233,12 @@ void mapaDesenha(Mapa *m) {
                     DrawTexture(m->texAguaMeio, posX, posY, WHITE);
                     break;
 
-                case PORTA_S:
-                    DrawTexture(m->texPortaS, posX, posY, WHITE);
+                case PORTA_LAVA:
+                    DrawTexture(m->texPortaLava, posX, posY, WHITE);
                     break;
 
-                case PORTA_P:
-                    DrawTexture(m->texPortaP, posX, posY, WHITE);
+                case PORTA_ICE:
+                    DrawTexture(m->texPortaIce, posX, posY, WHITE);
                     break;
 
                 case TILE_CHAO:
@@ -329,15 +329,15 @@ int mapaStarboyVenceu(Mapa *m, Jogador *j) {
     int x = (int)((j->posicao.x + j->largura/2) / m->tileSize);
     int y = (int)((j->posicao.y + j->altura/2) / m->tileSize);
     if (y >= 0 && y < m->linhas && x >= 0 && x < m->colunas)
-        return m->grade[y][x] == PORTA_S;
+        return m->grade[y][x] == PORTA_LAVA;
     return 0;
 }
 
-int mapaPlasmaGirlVenceu(Mapa *m, Jogador *j) {
+int mapaIceVenceu(Mapa *m, Jogador *j) {
     int x = (int)((j->posicao.x + j->largura/2) / m->tileSize);
     int y = (int)((j->posicao.y + j->altura/2) / m->tileSize);
     if (y >= 0 && y < m->linhas && x >= 0 && x < m->colunas)
-        return m->grade[y][x] == PORTA_P;
+        return m->grade[y][x] == PORTA_ICE;
     return 0;
 }
 
