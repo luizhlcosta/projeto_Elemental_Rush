@@ -3,6 +3,7 @@
 #include "jogador.h"
 #include "mapa.h"
 #include "tipos.h"
+#include "musica.h"
 
 #define GRAVIDADE   800.0f
 #define FORCA_PULO -440.0f
@@ -180,6 +181,7 @@ void jogadorPulaStarboy(Jogador *j) {
     if (j->noChao) {
         j->velocidade.y = FORCA_PULO;
         j->noChao = 0;
+        musicaTocaPulo();
     }
 }
 
@@ -187,5 +189,6 @@ void jogadorPulaPlasmaGirl(Jogador *j) {
     if (j->noChao) {
         j->velocidade.y = FORCA_PULO;
         j->noChao = 0;
+        musicaTocaPulo();
     }
 }

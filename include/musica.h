@@ -24,4 +24,12 @@ void musicaToggle(void);
 // Deve ser chamado antes de CloseWindow().
 void musicaDestroy(void);
 
+void musicaTocaPulo(void);
+
+bool musicaEstaAtiva(void);
+
+void musicaTocaEstrela(void);
+
+void musicaTocaMorte(void);
+
 #endif // MUSICA_H
