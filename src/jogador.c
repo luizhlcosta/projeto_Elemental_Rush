@@ -149,7 +149,15 @@ void jogadorUpdate(Jogador *j, Mapa *m) {
         j->estadoAnim = ANIM_IDLE;
 }
 
-void jogadorDesenha(Jogador *j) {
+void jogadorDesenha(Jogador *j, Mapa *m) {
+    
+    Rectangle rect = {j->posicao.x, j->posicao.y, j->largura, j->altura};
+    Color cor = WHITE;
+
+    if (mapaEhAgua(m, rect) || mapaEhFogo(m, rect)) {
+        cor = (Color){255, 255, 255, 40};
+    }
+
     Rectangle dest = {
         j->posicao.x,
         j->posicao.y,
@@ -162,10 +170,10 @@ void jogadorDesenha(Jogador *j) {
         dest,
         (Vector2){0, 0},
         0.0f,
-        WHITE,
-        0,                  // pausado
-        j->olhandoEsquerda, // flipH
-        0                   // flipV
+        cor,
+        0,
+        j->olhandoEsquerda,
+        0
     );
 }
 

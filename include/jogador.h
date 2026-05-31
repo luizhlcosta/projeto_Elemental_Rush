@@ -5,7 +5,7 @@
 
 void jogadorInit(Jogador *j, float x, float y, Color cor, char simbolo);
 void jogadorUpdate(Jogador *j, Mapa *m);
-void jogadorDesenha(Jogador *j);
+void jogadorDesenha(Jogador *j, Mapa *m);
 void jogadorDestroi(Jogador *j);
 void jogadorPulaStarboy(Jogador *j);
 void jogadorPulaPlasmaGirl(Jogador *j);
