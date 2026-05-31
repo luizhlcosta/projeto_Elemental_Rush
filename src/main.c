@@ -309,8 +309,8 @@ int main() {
 
                 mapaDesenha(jogo.mapa);
                 estrelasDesenhar(jogo.estrelas);
-                jogadorDesenha(&jogo.starboy);
-                jogadorDesenha(&jogo.plasmagirl);
+                jogadorDesenha(&jogo.starboy, jogo.mapa);
+                jogadorDesenha(&jogo.plasmagirl, jogo.mapa);
 
                 // HUD
                 int tempoTotal = jogo.tempoAcumulado + (int)(time(NULL) - jogo.inicio);
