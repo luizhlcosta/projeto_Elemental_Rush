@@ -54,14 +54,17 @@ void telaSelecaoMapaDesenha(int mapaAtual, int mapaDesbloqueado) {
     ClearBackground(BLACK);
     DrawText("SELECAO DE MAPA", 230, 80, 50, YELLOW);
 
-    const char *nomes[2] = {
-        "Mapa 1 - Vulcao",
-        "Mapa 2 - Caverna de Gelo"
+    const char *nomes[5] = {
+        "Mapa 1",
+        "Mapa 2",
+        "Mapa 3",
+        "Mapa 4",
+        "Mapa 5"
     };
 
-    for (int i = 0; i < 2; i++) {
+    for (int i = 0; i < 5; i++) {
         bool bloqueado = (i > mapaDesbloqueado);
-        int y = 240 + i * 90;
+        int y = 180 + i * 55;
 
         if (bloqueado) {
             // Mapa travado: cinza escuro + cadeado
