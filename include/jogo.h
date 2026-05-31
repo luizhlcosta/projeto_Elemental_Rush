@@ -4,7 +4,7 @@
 #include "raylib.h"
 #include "score.h"
 
-#define TOTAL_MAPAS 2
+#define TOTAL_MAPAS 5
 
 typedef enum {
     TELA_INICIO,
