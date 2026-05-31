@@ -1,7 +1,7 @@
 #ifndef SCORE_H
 #define SCORE_H
 
-#define ARQUIVO_SCORES "scores.txt"
+#define ARQUIVO_SCORES "saves/scores.txt"
 #define MAX_NOME 20
 
 typedef struct No {

@@ -1,4 +1,4 @@
-//main.c
+#include <stdio.h>
 #include "raylib.h"
 #include "jogador.h"
 #include "mapa.h"
@@ -11,6 +11,26 @@
 
 #define LARGURA  1280
 #define ALTURA   720
+
+#define PROGRESSO_PATH "saves/progresso.txt" 
+
+static int progressoLer(void) {                
+    FILE *f = fopen(PROGRESSO_PATH, "r");
+    if (!f) return 0;
+    int mapa = 0;
+    fscanf(f, "%d", &mapa);
+    fclose(f);
+    return mapa;
+}
+
+static void progressoSalvar(int mapaDesbloqueado) { 
+    system("mkdir -p saves");   
+    FILE *f = fopen(PROGRESSO_PATH, "w");
+    if (!f) return;
+    fprintf(f, "%d\n", mapaDesbloqueado);
+    fclose(f);
+}
+
 
 // Posições iniciais dos jogadores por mapa
 // [mapa][jogador] -> {x, y}
@@ -96,7 +116,7 @@ int main() {
     // Estado do jogo
     TelaAtual tela = TELA_INICIO;
     int mapaSelecionado = 0;   // cursor da tela de seleção
-    int mapaDesbloqueado = 0;  // índice do mapa mais avançado liberado
+    int mapaDesbloqueado = progressoLer(); 
 
     EstadoJogo jogo = {0};
 
@@ -141,6 +161,8 @@ int main() {
 
             case TELA_JOGO: {
 
+                if (IsKeyPressed(KEY_M)) musicaToggle();
+
                 // Starboy - WASD
                 jogo.starboy.velocidade.x = 0;
                 if (IsKeyDown(KEY_A)) jogo.starboy.velocidade.x = -200;
@@ -172,6 +194,8 @@ int main() {
                 if (mapaEhAgua(jogo.mapa, rS) || mapaEhFogo(jogo.mapa, rP) ||
                     mapaEhMorte(jogo.mapa, rS) || mapaEhMorte(jogo.mapa, rP)) {
                     jogo.tempoFinal = jogo.tempoAcumulado + (int)(time(NULL) - jogo.inicio);
+                    musicaToggle();
+                    musicaTocaMorte();
                     tela = TELA_GAMEOVER;
                     break;
                 }
@@ -192,9 +216,10 @@ int main() {
                     if (proximoMapa < TOTAL_MAPAS) {
                         // ── Avança para a próxima fase ──────────────────
                         // Desbloqueia o próximo mapa na tela de seleção
-                        if (proximoMapa > mapaDesbloqueado)
+                        if (proximoMapa > mapaDesbloqueado) {
                             mapaDesbloqueado = proximoMapa;
-
+                            progressoSalvar(mapaDesbloqueado); 
+                        }
                         estadoJogoLiberarFase(&jogo);
                         estadoJogoInit(&jogo, proximoMapa);
                         jogo.inicio = time(NULL);
@@ -238,6 +263,7 @@ int main() {
                     tela = TELA_SELECAO_MAPA;
                 }
                 if (IsKeyPressed(KEY_R)) {
+                    musicaResumir();
                     int mapaAtual = jogo.mapaSelecionado;
                     estadoJogoDestroy(&jogo);
                     estadoJogoInit(&jogo, mapaAtual);
@@ -299,6 +325,7 @@ int main() {
                 }
 
                 DrawText("ESC = Menu", LARGURA - 130, ALTURA - 30, 18, (Color){200,200,200,180});
+                DrawText(musicaEstaAtiva() ? "M = Musica: ON" : "M = Musica: OFF", LARGURA - 160, ALTURA - 55, 18, (Color){200,200,200,180});
                 break;
             }
 

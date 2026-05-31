@@ -42,6 +42,7 @@ void scoreLer(ListaScores *lista) {
 }
 
 void scoreSalvar(ListaScores *lista) {
+    system("mkdir -p saves");
     FILE *f = fopen(ARQUIVO_SCORES, "w");
     if (!f) return;
 
