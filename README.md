@@ -91,12 +91,6 @@ Execute o jogo com:
 ./jogo
 ```
 
-Ou utilize:
-
-```bash
-make run
-```
-
 ## Tecnologias Utilizadas
 
 - Linguagem C
