@@ -11,7 +11,6 @@ void telaInicioDesenha(ListaScores *scores) {
     DrawText("* LAVA = mata ICE", 220, 420, 18, ORANGE);
     DrawText("~ GELO = mata LAVA",    220, 445, 18, BLUE);
 
-    // Exibe o recorde se existir
     if (scores != NULL && scores->inicio != NULL) {
         DrawText("RECORDE:", 390, 478, 20, GOLD);
         DrawText(TextFormat("%ds", scores->inicio->tempo), 510, 478, 20, GOLD);
@@ -26,7 +25,6 @@ void telaVitoriaDesenha(int tempo, ListaScores *scores) {
     DrawText("VITORIA!", 270, 100, 70, YELLOW);
     DrawText(TextFormat("Seu tempo: %ds", tempo), 270, 190, 28, WHITE);
 
-    // Compara com o recorde (o melhor tempo é sempre o primeiro da lista)
     if (scores != NULL && scores->inicio != NULL) {
         int recorde = scores->inicio->tempo;
         if (tempo <= recorde) {
@@ -67,11 +65,9 @@ void telaSelecaoMapaDesenha(int mapaAtual, int mapaDesbloqueado) {
         int y = 180 + i * 55;
 
         if (bloqueado) {
-            // Mapa travado: cinza escuro + cadeado
             DrawText(nomes[i], 240, y, 28, DARKGRAY);
             DrawText("[BLOQUEADO]", 240, y + 32, 18, (Color){120, 60, 60, 255});
         } else {
-            // Mapa disponível: destaque se selecionado
             Color cor    = (i == mapaAtual) ? YELLOW : LIGHTGRAY;
             int tamanho  = (i == mapaAtual) ? 34 : 28;
             int x        = (i == mapaAtual) ? 230 : 240;

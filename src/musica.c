@@ -40,7 +40,7 @@ void musicaInit(void) {
     else
         SetSoundVolume(gSomEstrela, 2.0f);
 
-    gSomMorte = LoadSound(MORTE_PATH);            // ← novo
+    gSomMorte = LoadSound(MORTE_PATH);            
     if (gSomMorte.frameCount == 0)
         printf("[musica] Aviso: nao foi possivel carregar '%s'\n", MORTE_PATH);
     else

@@ -32,12 +32,10 @@ static void progressoSalvar(int mapaDesbloqueado) {
 }
 
 
-// Posições iniciais dos jogadores por mapa
-// [mapa][jogador] -> {x, y}
 static float posInicio[TOTAL_MAPAS][2][2] = {
-    // Mapa 0 (Vulcão): Starboy à esquerda, PlasmaGirl à direita
+    
     { {80.0f, 660.0f}, {980.0f, 540.0f} },
-    // Mapa 1 (Caverna de Gelo): Starboy à direita, PlasmaGirl à esquerda
+    
     { {980.0f, 480.0f}, {80.0f, 480.0f} },
 
     { {1100.0f, 530.0f}, {0.0f, 530.0f} },
@@ -47,18 +45,17 @@ static float posInicio[TOTAL_MAPAS][2][2] = {
     { {0.0f,    480.0f}, {1150.0f, 480.0f} },
 };
 
-// Estrelas por mapa
 static Vector2 posEstrelasMapa[TOTAL_MAPAS][3] = {
-    // Mapa 0
-    { {14*40, 5*40}, {25*40, 8*40}, {14*40, 9*40} },
-    // Mapa 1
-    { {16*40, 6*40}, {8*40,  8*40}, {24*40, 8*40} },
 
-    { {12*40, 9*40}, {15*40, 5*40}, {18*40, 9*40} },
+    { {40, 420}, {300, 180}, {1200, 220} },
+    
+    { {600, 200}, {120,  300}, {1000, 280} },
 
-    { {15*40, 6*40}, {9*40, 10*40}, {22*40, 10*40} },
+    { {50, 200}, {600, 650}, {630, 350} },
 
-    { {5*40,   4*40}, {15*40,  6*40}, {26*40, 11*40} },
+    { {860, 100}, {50, 360}, {1150, 370} },
+
+    { {40, 220}, {620, 200}, {980, 300} },
 };
 
 typedef struct {
@@ -69,8 +66,6 @@ typedef struct {
     time_t  inicio;
     int     tempoFinal;
     int     mapaSelecionado;
-
-    // Tempo acumulado de fases anteriores (para placar final correto)
     int     tempoAcumulado;
 } EstadoJogo;
 
@@ -90,10 +85,8 @@ static void estadoJogoInit(EstadoJogo *e, int mapaSelecionado) {
     e->estrelas = estrelasInit(posEstrelasMapa[mapaSelecionado], 3);
     e->inicio   = 0;
     e->tempoFinal = 0;
-    // tempoAcumulado NÃO é zerado aqui pois pode vir de uma fase anterior
 }
 
-// Libera apenas os recursos de mapa/jogadores/estrelas (sem zerar tempoAcumulado)
 static void estadoJogoLiberarFase(EstadoJogo *e) {
     estrelasDestroy(&e->estrelas);
     mapaDestroy(e->mapa);
@@ -101,7 +94,6 @@ static void estadoJogoLiberarFase(EstadoJogo *e) {
     jogadorDestroi(&e->ice);
 }
 
-// Libera tudo e zera o acumulado (usado ao voltar ao menu)
 static void estadoJogoDestroy(EstadoJogo *e) {
     estadoJogoLiberarFase(e);
     e->tempoAcumulado = 0;
@@ -111,7 +103,7 @@ int main() {
 
     InitWindow(LARGURA, ALTURA, "Elemental Rush");
     SetWindowState(FLAG_WINDOW_RESIZABLE);
-    SetExitKey(KEY_NULL);  // desativa ESC como tecla de fechar janela
+    SetExitKey(KEY_NULL);  
     SetTargetFPS(120);
 
     musicaInit();
@@ -120,24 +112,19 @@ int main() {
 
     RenderTexture2D target = LoadRenderTexture(LARGURA, ALTURA);
     SetTextureFilter(target.texture, TEXTURE_FILTER_POINT);
-
-    // Scores
     ListaScores *scores = scoreInit();
     scoreLer(scores);
 
-    // Estado do jogo
     TelaAtual tela = TELA_INICIO;
-    int mapaSelecionado = 0;   // cursor da tela de seleção
+    int mapaSelecionado = 0;   
     int mapaDesbloqueado = progressoLer(); 
 
     EstadoJogo jogo = {0};
 
     while (!WindowShouldClose()) {
 
-        // ── AUDIO UPDATE ────────────────────────────────────
         musicaUpdate();
 
-        // ── UPDATE ──────────────────────────────────────────
         switch (tela) {
 
             case TELA_INICIO:
@@ -157,7 +144,6 @@ int main() {
                     mapaSelecionado = (mapaSelecionado + 1) % TOTAL_MAPAS;
 
                 if (IsKeyPressed(KEY_ENTER)) {
-                    // Só entra se o mapa estiver desbloqueado
                     if (mapaSelecionado <= mapaDesbloqueado) {
                         jogo.tempoAcumulado = 0;
                         estadoJogoInit(&jogo, mapaSelecionado);
@@ -175,7 +161,7 @@ int main() {
 
                 if (IsKeyPressed(KEY_M)) musicaToggle();
 
-                // Starboy - WASD
+                // Lava - WASD
                 jogo.lava.velocidade.x = 0;
                 if (IsKeyDown(KEY_A)) jogo.lava.velocidade.x = -200;
                 if (IsKeyDown(KEY_D)) jogo.lava.velocidade.x =  200;
@@ -202,7 +188,6 @@ int main() {
 
                 estrelasVerificarColeta(jogo.estrelas, rL, rI, 20.0f);
 
-                // Morte por perigo elemental ou zona de morte
                 if (mapaEhAgua(jogo.mapa, rL) || mapaEhFogo(jogo.mapa, rI) ||
                     mapaEhMorte(jogo.mapa, rL) || mapaEhMorte(jogo.mapa, rI)) {
                     jogo.tempoFinal = jogo.tempoAcumulado + (int)(time(NULL) - jogo.inicio);
@@ -212,13 +197,11 @@ int main() {
                     break;
                 }
 
-                // Verifica se ambos os jogadores chegaram à porta
                 bool LavaNaPorta = mapaLavaVenceu(jogo.mapa, &jogo.lava);
                 bool iceNaPorta     = mapaIceVenceu(jogo.mapa, &jogo.ice);
                 bool todasEstrelas     = estrelasPodeProsseguir(jogo.estrelas);
 
                 if (LavaNaPorta && iceNaPorta && todasEstrelas) {
-                    // Soma o tempo desta fase ao acumulado
                     int tempoEstaFase = (int)(time(NULL) - jogo.inicio);
                     jogo.tempoAcumulado += tempoEstaFase;
                     jogo.tempoFinal = jogo.tempoAcumulado;
@@ -226,8 +209,6 @@ int main() {
                     int proximoMapa = jogo.mapaSelecionado + 1;
 
                     if (proximoMapa < TOTAL_MAPAS) {
-                        // ── Avança para a próxima fase ──────────────────
-                        // Desbloqueia o próximo mapa na tela de seleção
                         if (proximoMapa > mapaDesbloqueado) {
                             mapaDesbloqueado = proximoMapa;
                             progressoSalvar(mapaDesbloqueado); 
@@ -235,17 +216,13 @@ int main() {
                         estadoJogoLiberarFase(&jogo);
                         estadoJogoInit(&jogo, proximoMapa);
                         jogo.inicio = time(NULL);
-                        // tela permanece TELA_JOGO — transição transparente
                     } else {
-                        // ── Último mapa concluído: vitória total ─────────
-                        // Salva o tempo automaticamente como "Jogador"
                         scoreInserir(scores, "Jogador", jogo.tempoFinal);
                         scoreSalvar(scores);
                         tela = TELA_VITORIA;
                     }
                 }
 
-                // ESC volta ao menu de seleção de mapa
                 if (IsKeyPressed(KEY_ESCAPE)) {
                     estadoJogoDestroy(&jogo);
                     tela = TELA_SELECAO_MAPA;
@@ -290,7 +267,6 @@ int main() {
 
         if (tela == TELA_SAIR) break;
 
-        // ── DRAW ────────────────────────────────────────────
         BeginTextureMode(target);
         ClearBackground(BLACK);
 
@@ -324,14 +300,13 @@ int main() {
                 jogadorDesenha(&jogo.lava, jogo.mapa);
                 jogadorDesenha(&jogo.ice, jogo.mapa);
 
-                // HUD
+               
                 int tempoTotal = jogo.tempoAcumulado + (int)(time(NULL) - jogo.inicio);
                 DrawText(TextFormat("Tempo: %ds", tempoTotal), 10, 10, 20, WHITE);
                 DrawText(TextFormat("Estrelas: %d/3", jogo.estrelas->coletadas), LARGURA - 180, 10, 20, GOLD);
                 DrawText(TextFormat("Fase: %d/%d", jogo.mapaSelecionado + 1, TOTAL_MAPAS),
                          LARGURA / 2 - 40, 10, 20, WHITE);
 
-                // Indicador de porta: só aparece quando todas as estrelas foram pegas
                 if (estrelasPodeProsseguir(jogo.estrelas)) {
                     DrawText("PORTA ABERTA! Va ate a saida!", LARGURA / 2 - 160, 40, 20, GREEN);
                 }
@@ -378,7 +353,6 @@ int main() {
         EndDrawing();
     }
 
-    // Libera recursos globais
     scoreDestroy(scores);
     UnloadTexture(background);
     UnloadRenderTexture(target);
