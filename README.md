@@ -1,6 +1,6 @@
 # Elemental Rush
 
-Elemental Rush é um jogo cooperativo em pixel art. O jogador controla dois personagens elementais que devem trabalhar em conjunto para superar obstáculos, atravessar plataformas e completar cada fase.
+Elemental Rush é um jogo cooperativo em pixel art. Os jogadores controlam dois personagens elementais que devem trabalhar em conjunto para superar obstáculos, atravessar plataformas e completar cada fase.
 
 ## Sobre o Jogo
 
@@ -107,6 +107,10 @@ Execute o jogo com:
 - Os arquivos de imagem e áudio são carregados utilizando caminhos relativos.
 - Certifique-se de que todos os recursos do projeto estejam presentes antes da execução.
 - O projeto foi desenvolvido com foco em mecânicas cooperativas de plataforma utilizando arte em pixel art.
+
+## Link vídeo de apresentação
+
+https://youtu.be/f8-dIcEwDs0
 
 ## Créditos
 
