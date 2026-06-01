@@ -114,12 +114,15 @@ void jogadorUpdate(Jogador *j, Mapa *m) {
         fim_colisao_fluid:;
     }
 
+    float mapaLargura = (float)(m->colunas * m->tileSize);
+    float mapaAltura  = (float)(m->linhas  * m->tileSize);
+
     if (j->posicao.x < 0) j->posicao.x = 0;
-    if (j->posicao.x + j->largura > GetScreenWidth())
-        j->posicao.x = GetScreenWidth() - j->largura;
+    if (j->posicao.x + j->largura > mapaLargura)
+        j->posicao.x = mapaLargura - j->largura;
     if (j->posicao.y < 0) j->posicao.y = 0;
-    if (j->posicao.y + j->altura > GetScreenHeight()) {
-        j->posicao.y = GetScreenHeight() - j->altura;
+    if (j->posicao.y + j->altura > mapaAltura) {
+        j->posicao.y = mapaAltura - j->altura;
         j->velocidade.y = 0;
         j->noChao = 1;
     }
