@@ -1,4 +1,3 @@
-//Código de funcionamento dos sprites
 #include "animacao.h"
 
 
