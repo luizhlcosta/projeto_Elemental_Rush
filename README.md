@@ -108,6 +108,10 @@ Execute o jogo com:
 - Certifique-se de que todos os recursos do projeto estejam presentes antes da execução.
 - O projeto foi desenvolvido com foco em mecânicas cooperativas de plataforma utilizando arte em pixel art.
 
+## Link vídeo de apresentação
+
+https://youtu.be/f8-dIcEwDs0
+
 ## Créditos
 
 Elemental Rush foi desenvolvido como um projeto acadêmico utilizando a linguagem C e a biblioteca Raylib. O jogo foi inspirado nas mecânicas clássicas de Fireboy and Watergirl, adaptadas para uma versão própria em pixel art.
